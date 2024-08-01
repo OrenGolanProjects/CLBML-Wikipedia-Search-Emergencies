@@ -15,4 +15,36 @@
     <li>Can external factors be leveraged to predict traffic on disaster and emergency Wikipedia pages?</li>
     <li>Is there a significant relationship between Google search trends and the view patterns on relevant Wikipedia pages during emergencies and disasters?</li>
 </ol>
+
+<h2>Peak Detection Settings</h2>
+<p>Please provide the settings for peak detection in the form below:</p>
+
+<!-- Form Container -->
+<div class="form-container">
+    <!-- Form for Peak Detection Settings -->
+    <form method="POST" action="{{ url_for('research') }}" class="peak-detection-form">
+        <div class="form-group">
+            <label for="threshold">Threshold:</label>
+            <input type="number" class="form-control" id="threshold"    name="threshold"    placeholder="Threshold" value="2" required>
+        </div>
+        <div class="form-group">
+            <label for="distance">Distance:</label>
+            <input type="number" class="form-control" id="distance"     name="distance"     placeholder="Distance" value="2" required>
+        </div>
+        <div class="form-group">
+            <label for="prominence">Prominence:</label>
+            <input type="number" class="form-control" id="prominence"   name="prominence"   placeholder="Prominence" value="100" required>
+        </div>
+        <div class="form-group">
+            <label for="height">Height:</label>
+            <input type="number" class="form-control" id="height"       name="height"   placeholder="Height" value="1" required>
+        </div>
+        <div class="form-group">
+            <label for="width">Width:</label>
+            <input type="number" class="form-control" id="width"        name="width"    placeholder="Width" value="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
 {% endblock %}

@@ -31,15 +31,14 @@ header, footer {
 header {
     padding: 1rem 0;
 }
-
+/* Footer Styles */
 footer {
+    margin-top: 40px; /* Increase the top margin for more space */
+    padding: 20px;
     text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    font-size: 0.9em;
+    border-top: 1px solid #ddd;
 }
+
 
 /* Navbar Styles */
 nav ul {
@@ -361,3 +360,80 @@ button:hover {
     height: 100%;
 }
 
+/* Form Container Styles */
+.form-container {
+    background: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: flex-start; /* Align form to the left */
+}
+
+/* Form Styles */
+.peak-detection-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%; /* Ensure form takes full width */
+}
+
+.peak-detection-form .form-group {
+    flex: 1 1 calc(50% - 20px); /* Two fields per row */
+    display: flex;
+    flex-direction: column;
+}
+
+.peak-detection-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.peak-detection-form input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.peak-detection-form input[type="number"]:focus {
+    border-color: #35424a;
+    outline: none;
+}
+
+.peak-detection-form button {
+    background-color: #35424a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.peak-detection-form button:hover {
+    background-color: #e8491d;
+}
+
+/* Responsive Form */
+@media (max-width: 600px) {
+    .peak-detection-form .form-group {
+        flex: 1 1 100%; /* One field per row on small screens */
+    }
+
+    .peak-detection-form button {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+.peaks-detection-section {
+    margin-bottom: 20px;
+}

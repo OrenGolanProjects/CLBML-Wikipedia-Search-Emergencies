@@ -62,54 +62,54 @@ Copy code
 This project aims to analyze the interrelationships and political responses to catastrophic events such as terrorist attacks and wars by examining their impact on information searches on the internet. The analysis focuses on understanding how people react and seek information in response to such events and whether there are statistical correlations between search frequencies in different languages.
 
 ## Project Structure
-
-CLBML/
-│
-├── app.py
-├── instance/
-│ ├── CLBML.db
-├── templates/
-│ ├── base.html
-│ ├── events.html
-│ ├── research.html
-│ ├── welcome.html
-│ ├── wiki_traffic.html
-│ └── wikipedia.html
-├── static/
-│ └── style.css
-├── models/
-│ ├── init.py
-│ ├── event.py
-│ └── wikipedia_page.py
-├── repositories/
-│ ├── init.py
-│ ├── event_repository.py
-│ ├── wikipedia_repository.py
-│ └── wiki_traffic_repository.py
-├── services/
-│ ├── init.py
-│ ├── event_service.py
-│ ├── outlier_service.py
-│ ├── arima_service.py
-│ ├── wikipedia_service.py
-│ └── wiki_traffic_service.py
-├── utils/
-│ ├── init.py
-│ ├── api.py
-│ ├── database.py
-│ └── exceptions.py
-├── components/
-│ ├── events_component.py
-│ ├── wikipedia_component.py
-│ ├── update_check_component.py
-│ └── wiki_traffic_component.py
-├── files/
-│ ├── wiki_traffic_data.csv
-│ ├── events_default.json
-│ └── wikipedia_pages_default.json
-├── requirements.txt
-└── .env
-
+```
+    CLBML/
+    │
+    ├── app.py
+    ├── instance/
+    │ ├── CLBML.db
+    ├── templates/
+    │ ├── base.html
+    │ ├── events.html
+    │ ├── research.html
+    │ ├── welcome.html
+    │ ├── wiki_traffic.html
+    │ └── wikipedia.html
+    ├── static/
+    │ └── style.css
+    ├── models/
+    │ ├── init.py
+    │ ├── event.py
+    │ └── wikipedia_page.py
+    ├── repositories/
+    │ ├── init.py
+    │ ├── event_repository.py
+    │ ├── wikipedia_repository.py
+    │ └── wiki_traffic_repository.py
+    ├── services/
+    │ ├── init.py
+    │ ├── event_service.py
+    │ ├── outlier_service.py
+    │ ├── arima_service.py
+    │ ├── wikipedia_service.py
+    │ └── wiki_traffic_service.py
+    ├── utils/
+    │ ├── init.py
+    │ ├── api.py
+    │ ├── database.py
+    │ └── exceptions.py
+    ├── components/
+    │ ├── events_component.py
+    │ ├── wikipedia_component.py
+    │ ├── update_check_component.py
+    │ └── wiki_traffic_component.py
+    ├── files/
+    │ ├── wiki_traffic_data.csv
+    │ ├── events_default.json
+    │ └── wikipedia_pages_default.json
+    ├── requirements.txt
+    └── .env
+```
 ## Abstract
 
 This study analyzes the interrelationships and political responses to catastrophic events like terrorist attacks and wars and their impact on information searches on the internet. The aim is to understand how people react and seek information in response to such events and identify statistical correlations between search frequencies in different languages.

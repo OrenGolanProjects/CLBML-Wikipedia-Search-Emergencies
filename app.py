@@ -1,12 +1,10 @@
 
 import os
 import logging
-from flask import Flask,render_template, request, redirect, url_for
-from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 
-
-
+from flask import Flask,render_template, request, redirect, url_for
+from dotenv import load_dotenv
 from utils.database import init_db
 from utils.exceptions import handle_exception
 
@@ -87,7 +85,7 @@ def manage_wikipedia_pages():
     pages = WikipediaService.get_all_pages()
     return render_template('wikipedia.html', pages=pages)
 
-@app.route('/research')
+@app.route('/research', methods=['GET', 'POST'])
 def research():
     print(">> START::/research route done.")
 
@@ -95,26 +93,32 @@ def research():
     merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
     print("===  created merged_df.")
 
-    # Check for existing peaks figures
-    peaks_figures_dir = os.path.join(app.static_folder, 'peaks_figures')
-    peaks_existing_figures = set(os.listdir(peaks_figures_dir)) if os.path.exists(peaks_figures_dir) else set()
-
-    print("===  check for existings figure done.")
     obj_peaksService.peaks_check_and_create_figure_directory()
+
+    # Extract settings from form
+    if request.method == 'POST':
+        threshold = request.form.get('threshold', type=int)
+        distance = request.form.get('distance', type=int)
+        prominence = request.form.get('prominence', type=int)
+        height = request.form.get('height', type=int)
+        width = request.form.get('width', type=int)
+    else:
+        threshold = 2
+        distance = 2
+        prominence = 100
+        height = 1
+        width = 1
+
+
     # Detect peaks, using existing figures if available
-    peaks_results = obj_peaksService.detect_peaks(merged_df, peaks_existing_figures)
-
-    # Group images by subject
-    subjects = {}
-    for key, data in peaks_results.items():
-        parts = key.split('_', 1)
-        if len(parts) > 1:
-            subject = parts[1]
-            if subject not in subjects:
-                subjects[subject] = []
-            subjects[subject].append(data)
-    print("     peaks detection done.")
-
+    peaks_results = obj_peaksService.detect_peaks(
+        merged_df, 
+        threshold=threshold, 
+        distance=distance, 
+        prominence=prominence, 
+        height=height, 
+        width=width
+    )
 
     # Read traffic data from CSV
     merged_df = wiki_traffic_service.read_traffic_data_from_csv()
@@ -124,12 +128,10 @@ def research():
     # Run ARIMA model analysis for all events
     arima_results = arima_service.load_arima_results()
 
-    print("     arima model done.")
-
+    print("=== arima model done.")
     print(">> END::/research rout")
-    return render_template('research.html', peaks_results=subjects, arima_results=arima_results)
+    return render_template('research.html', peaks_results=peaks_results, arima_results=arima_results)
 
 
 if __name__ == '__main__':
     app.run(debug=False)
-

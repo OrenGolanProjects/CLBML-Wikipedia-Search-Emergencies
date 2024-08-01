@@ -7,6 +7,7 @@ from components.wikipedia_component import load_default_wikipedia_pages
 from components.wiki_traffic_component import load_wiki_traffic
 from components.arima_component import load_default_arima
 from components.peaks_component import reset_paeks
+from services.reset_service import ResetService 
 
 
 UPDATE_LOG_FILE = 'update_log.json'
@@ -27,17 +28,10 @@ def update_log():
         data = {'last_update': datetime.today().strftime('%Y-%m-%d')}
         json.dump(data, file)
 
-
-    def check_and_create_outliers_directory(self):
-        # Define directory paths
-        figures_dir = 'static/outliers_figures'
-
-        # Check if 'arima_figures' directory exists, create if not
-        if not os.path.exists(figures_dir):
-            os.makedirs(figures_dir)
-            print(f"Created directory: {figures_dir}")
-
 def perform_updates(app):
+    reset_service = ResetService()  # Instantiate the ResetService
+    reset_service.reset_files_and_directories()  # Reset files and directories
+
     with app.app_context():
         create_tables(app)
         load_default_events()

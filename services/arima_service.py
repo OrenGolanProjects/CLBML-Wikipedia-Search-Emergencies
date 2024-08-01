@@ -74,7 +74,7 @@ class ARIMAService:
         return arima_results
 
     def arima_forecast(self, df, column_name, existing_figures, steps=7):
-        print("===  START::  arima_forecast")
+        print(f"===  START::  arima_forecast for page: {column_name}")
         filename = f'arima_{column_name}.png'
         # Ensure the DataFrame is sorted by date
         df = df.sort_values('date')
@@ -172,10 +172,18 @@ class ARIMAService:
                         'filename': filename
                     }
                 else:
-                    print(f"Figure for column {column_name} does not exist.")
+                    print(f"Figure for column {filename} does not exist.")
         else:
             print(f"CSV file {self.csv_file_path} does not exist.")
             return None
 
         print(">> END:: load_arima_results")
         return arima_results
+
+    def delete_csv_file(self):
+        file_path = self.csv_file_path
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print(f"File {file_path} has been deleted.")
+        else:
+            print(f"No file found at {file_path}")

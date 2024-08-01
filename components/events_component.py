@@ -1,9 +1,11 @@
 import json
 from services.event_service import EventService
 
+# Load default events from a JSON file
 def load_default_events():
     print(">> START:: load_default_events")
-    with open('files/events_default.json', 'r', encoding='utf-8') as file:
+    event_filePath = 'files/events_default.json'
+    with open(event_filePath, 'r', encoding='utf-8') as file:
         events_data = json.load(file)
 
     for event_data in events_data:

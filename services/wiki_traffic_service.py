@@ -16,55 +16,13 @@ class WikiTrafficService:
         self.wiki_traffic_repo = WikiTrafficRepository()
         self.wikipedia_repo = WikipediaRepository()
         self.event_repo = EventRepository()
+        self.filePath = './files/wiki_traffic_data.csv'
 
     def _get_initial_columns(self):
         pages = self.wikipedia_repo.get_all()
         columns = [f"{page.language}_{page.title}" for page in pages]
         print(f"Initial columns: {columns}")
         return columns
-
-    # def get_traffic_data(self):
-    #     print("Starting wiki traffic data collection...")
-    #     today_str = datetime.now().strftime('%Y%m%d')
-    #     data = []
-
-    #     wikipedia_pages = self.wikipedia_repo.get_all()
-
-    #     for page in wikipedia_pages:
-    #         event = self.event_repo.get_by_event_code(page.event_code)
-    #         if event is None:
-    #             print(f"No event found for page: {page.title}")
-    #             continue
-
-    #         created_datetime = self._parse_datetime(event.created_datetime)
-    #         if created_datetime is None:
-    #             continue
-
-    #         start_date = created_datetime.strftime('%Y%m%d')
-
-    #         try:
-    #             df = get_wikipedia_traffic_data(page.language, page.title, start_date, today_str, event.name)
-    #             data.append(df)
-    #         except Exception as e:
-    #             print(f"Error fetching data for {page.title}: {str(e)}")
-
-    #     if not data:
-    #         print("No data fetched from API")
-    #         return pd.DataFrame()
-
-    #     merged_df = reduce(lambda left, right: pd.merge(left, right, on='timestamp', how='outer', suffixes=('', '_y')), data)
-
-    #     # Ensure 'timestamp' column exists and is converted to 'date'
-    #     if 'timestamp' in merged_df.columns:
-    #         merged_df['date'] = pd.to_datetime(merged_df['timestamp']).dt.date
-    #         merged_df = merged_df.drop(columns=['timestamp'])  # Remove the 'timestamp' column
-    #     else:
-    #         merged_df['date'] = pd.to_datetime(merged_df.index).date  # Fallback to index if no 'timestamp' column
-
-    #     merged_df = merged_df.reset_index(drop=True)
-    #     print("Wiki traffic data collection completed.")
-    #     return merged_df
-
 
     def get_traffic_data(self):
         print("Starting wiki traffic data collection...")
@@ -186,19 +144,25 @@ class WikiTrafficService:
         return 0
 
     def save_to_csv(self, df):
-        file_path = './files/wiki_traffic_data.csv'
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        df.to_csv(file_path, index=True, mode='w')
-        print(f"Wiki traffic data saved to {file_path}")
+
+        os.makedirs(os.path.dirname(self.filePath), exist_ok=True)
+        df.to_csv(self.filePath, index=True, mode='w')
+        print(f"Wiki traffic data saved to {self.filePath}")
 
     def read_traffic_data_from_csv(self):
         print("===  START::   read_traffic_data_from_csv")
 
-        file_path = './files/wiki_traffic_data.csv'
-        if os.path.exists(file_path):
-            df = pd.read_csv(file_path, index_col=1)  # Assuming the first column is the index
-            print(f"     Wiki traffic data read from {file_path}")
+        if os.path.exists(self.filePath):
+            df = pd.read_csv(self.filePath, index_col=1)  # Assuming the first column is the index
+            print(f"     Wiki traffic data read from {self.filePath}")
             return df
         else:
-            print(f"No CSV file found at {file_path}")
+            print(f"No CSV file found at {self.filePath}")
             return pd.DataFrame()
+
+    def delete_csv_file(self):
+        if os.path.exists(self.filePath):
+            os.remove(self.filePath)
+            print(f"File {self.filePath} has been deleted.")
+        else:
+            print(f"No file found at {self.filePath}")

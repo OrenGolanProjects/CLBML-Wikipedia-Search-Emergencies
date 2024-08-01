@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Events{% endblock %}
+{% block content %}
+<h1>Events</h1>
+<form class="add-form" method="POST">
+    <!-- Form content remains the same -->
+</form>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Event Code</th>
+                <th>Event</th>
+                <th>Language</th>
+                <th>Created Datetime</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.event_code }}</td>
+                <td class="left-align">{{ event.name }}</td>
+                <td>{{ event.language }}</td>
+                <td>{{ event.created_datetime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

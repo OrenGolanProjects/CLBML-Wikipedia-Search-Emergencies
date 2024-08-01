@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Wikipedia Pages{% endblock %}
+{% block content %}
+<h1>Wikipedia Pages</h1>
+
+<table class="table-fixed">
+    <thead>
+        <tr>
+            <th>Event Code</th>
+            <th>Page Title</th>
+            <th>Language</th>
+            <th>Views</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for page in pages %}
+        <tr>
+            <td>{{ page.event_code }}</td>
+            <td class="left-align">{{ page.title }}</td>
+            <td>{{ page.language }}</td>
+            <td>{{ page.views }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

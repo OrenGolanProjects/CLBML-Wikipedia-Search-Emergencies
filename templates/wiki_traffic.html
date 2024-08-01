@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Wiki Traffic Data{% endblock %}
+{% block content %}
+<h1>Wiki Traffic Data</h1>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th data-text="{{ column }}">{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                {% for column in columns %}
+                <td>{{ row[column] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

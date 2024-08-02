@@ -1,60 +1,103 @@
 import os
-import itertools
 import warnings
 import pandas as pd
-import shutil
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import logging
 
+from pmdarima import auto_arima
 from statsmodels.tsa.arima.model import ARIMA
+from services.wiki_traffic_service import WikiTrafficService
+
 
 class ARIMAService:
+    """
+    Service class for ARIMA model operations including training, forecasting, and saving results.
+    """
 
     def __init__(self):
+        """
+        Initialize the ARIMAService with default directories and logger.
+        """
+        self.logger = logging.getLogger(__name__)
         self.figure_directory = 'static/arima_figures'
         self.csv_file_path = './files/arima_results.csv'
         self.check_and_create_figure_directory()
+        self.wiki_traffic_service = WikiTrafficService()
+
 
     def check_and_create_figure_directory(self):
-        if os.path.exists(self.figure_directory):
-            shutil.rmtree(self.figure_directory) # delete current directory
-            print(f"=== Deleted directory: {self.figure_directory}")
-        # Check if 'arima_figures' directory exists, create if not
-        os.makedirs(self.figure_directory)
-        print(f"Created directory: {self.figure_directory}")
+        """
+        Check if the figure directory exists, delete it if it does, and create a new one.
+        """
+        self.logger.info(">> START:: check_and_create_figure_directory")
+        os.makedirs(self.figure_directory, exist_ok=True)
+        self.logger.info(">> END:: check_and_create_figure_directory")
 
-    def find_best_arima_order(self,data, column):
-        p = d = q = range(0, 3)
-        pdq = list(itertools.product(p, d, q))
+    def find_best_arima_order(self, data, column):
+        """
+        Find the best ARIMA order for the given data column using auto_arima.
 
-        best_aic = float("inf")
-        best_pdq = None
-
+        :param data: DataFrame containing the data.
+        :param column: Column name to find the ARIMA order for.
+        :return: Best ARIMA order.
+        """
+        self.logger.info(">> START:: find_best_arima_order")
         warnings.filterwarnings("ignore")
 
-        for param in pdq:
-            try:
-                model = ARIMA(data[column], order=param)
-                results = model.fit()
-                if results.aic < best_aic:
-                    best_aic = results.aic
-                    best_pdq = param
-            except:
-                continue
+        # Check for NaN values and handle them
+        if data[column].isna().any():
+            self.logger.warning(f"Column {column} contains NaN values. Removing leading NaNs.")
+            # Remove leading NaNs
+            data = data.loc[data[column].first_valid_index():]
+            # Forward and backward fill remaining NaNs
+            data[column] = data[column].fillna(method='ffill')
+            data[column] = data[column].fillna(method='bfill')
 
-        return best_pdq
+        self.logger.info(f"Finding best ARIMA order for column {column}")
+        model = auto_arima(data[column], seasonal=False, stepwise=True, suppress_warnings=True)
+        self.logger.info(">> END:: find_best_arima_order")
+        return model.order
 
-    def train_arima_model(self,data, column, order):
+    def train_arima_model(self, data, column, order):
+        """
+        Train the ARIMA model with the given order on the specified data column.
+
+        :param data: DataFrame containing the data.
+        :param column: Column name to train the ARIMA model on.
+        :param order: ARIMA order.
+        :return: Trained ARIMA model results.
+        """
+        self.logger.info(">> START:: train_arima_model")
         model = ARIMA(data[column], order=order)
         results = model.fit()
+        self.logger.info(">> END:: train_arima_model")
         return results
 
-    def forecast_arima_model(self,results, steps):
+    def forecast_arima_model(self, results, steps):
+        """
+        Forecast future values using the trained ARIMA model.
+
+        :param results: Trained ARIMA model results.
+        :param steps: Number of steps to forecast.
+        :return: DataFrame containing the forecasted values.
+        """
+        self.logger.info(">> START:: forecast_arima_model")
         forecast = results.get_forecast(steps=steps)
         forecast_df = forecast.summary_frame()
+        self.logger.info(">> END:: forecast_arima_model")
         return forecast_df
 
     def run_arima_model(self, df, existing_figures, steps=7):
-        print(">> START:: run_arima_model")
+        """
+        Run the ARIMA model on the given DataFrame and save the results.
+
+        :param df: DataFrame containing the data.
+        :param existing_figures: List of existing figure filenames.
+        :param steps: Number of steps to forecast.
+        :return: Dictionary containing the ARIMA results.
+        """
+        self.logger.info(">> START:: run_arima_model")
         arima_results = {}
         for column_name in df.columns:
             if column_name != 'date':
@@ -70,19 +113,25 @@ class ARIMAService:
                     'filename': filename
                 }
         self.arima_save_to_csv(arima_results)
-        print(">> END:: run_arima_model")
+        self.logger.info(">> END:: run_arima_model")
         return arima_results
 
-    def arima_forecast(self, df, column_name, existing_figures, steps=7):
-        print(f"===  START::  arima_forecast for page: {column_name}")
-        filename = f'arima_{column_name}.png'
-        # Ensure the DataFrame is sorted by date
-        df = df.sort_values('date')
 
-        # Set the date as the index
+    def arima_forecast(self, df, column_name, existing_figures, steps=7):
+        """
+        Perform ARIMA forecasting for a specific column in the DataFrame.
+
+        :param df: DataFrame containing the data.
+        :param column_name: Column name to forecast.
+        :param existing_figures: List of existing figure filenames.
+        :param steps: Number of steps to forecast.
+        :return: Tuple containing the forecast DataFrame, error message, and filename.
+        """
+        self.logger.info(f">> START:: arima_forecast for page: {column_name}")
+        filename = f'arima_{column_name}.png'
+        df = df.sort_values('date')
         df = df.set_index('date')
 
-        # Make sure the index is a DatetimeIndex
         if not isinstance(df.index, pd.DatetimeIndex):
             df.index = pd.to_datetime(df.index)
 
@@ -90,34 +139,78 @@ class ARIMAService:
         results = self.train_arima_model(df, column_name, order)
         forecast_df = self.forecast_arima_model(results, steps)
 
-        # Make sure the forecast index is a DatetimeIndex
         if not isinstance(forecast_df.index, pd.DatetimeIndex):
             forecast_df.index = pd.to_datetime(forecast_df.index)
 
-        # Check if the figure already exists
+        # Plot the forecasted data
         if filename not in existing_figures:
-            # Generate plot
-            plt.figure(figsize=(10, 6))
-            plt.plot(df.index, df[column_name], label='Observed')
-            plt.plot(forecast_df.index, forecast_df['mean'], label='Forecast')
-            plt.fill_between(forecast_df.index, 
-                                forecast_df['mean_ci_lower'],
-                                forecast_df['mean_ci_upper'],
-                                color='k', alpha=0.1)
-            plt.xlabel('Date')
-            plt.ylabel('Value')
-            plt.title(f'ARIMA Forecast for {column_name}')
-            plt.legend()
+            fig, ax = plt.subplots(figsize=(25, 10))
 
-            plt.savefig(os.path.join(self.figure_directory, filename))
-            plt.close()
+            # Plot observed data
+            ax.plot(df.index, df[column_name], label='Observed', color='#35424a', linestyle='-', marker='o', markersize=0)
 
-        print("===  END::  arima_forecast")
+            # Plot forecasted data
+            ax.plot(forecast_df.index, forecast_df['mean'], label='Forecast', color='#e8491d', linestyle='--', marker='s', markersize=2)
+
+            # Fill between the confidence intervals
+            ax.fill_between(forecast_df.index,
+                            forecast_df['mean_ci_lower'],
+                            forecast_df['mean_ci_upper'],
+                            color='#e8491d', alpha=0.2, label='95% Confidence Interval')
+
+            # Customize the plot
+            ax.set_xlabel('Date', fontsize=12, fontweight='bold', color='#333')
+            ax.set_ylabel('Value', fontsize=12, fontweight='bold', color='#333')
+            ax.set_title(f'ARIMA Forecast for {column_name}', fontsize=16, fontweight='bold', color='#35424a')
+
+            # Improve x-axis
+            ax.xaxis.set_major_locator(mdates.AutoDateLocator())
+            ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+            plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right', color='#333')
+
+            # Add grid lines
+            ax.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6, color='#ddd')
+
+            # Customize legend
+            ax.legend(loc='upper left', fontsize=10, frameon=True, framealpha=0.8, facecolor='#f4f4f4', edgecolor='#ddd')
+
+            # Add ARIMA formula text
+            # The 'order' tuple represents the parameters (p, d, q) of the ARIMA model:
+            # p: The number of lag observations included in the model (autoregressive part).
+            # d: The number of times that the raw observations are differenced (differencing part).
+            # q: The size of the moving average window (moving average part).
+            formula_text = f'ARIMA({order[0]},{order[1]},{order[2]}), p={order[0]} lag observations, d={order[1]} times, q={order[2]} moving average'
+            ax.text(0.05, 0.05, formula_text, transform=ax.transAxes, fontsize=14, fontweight='bold', verticalalignment='bottom', bbox=dict(facecolor='#ff4136', edgecolor='#ddd', alpha=0.8), color='#333')
+
+            # Add a vertical line to separate observed and forecasted data
+            last_observed_date = df.index[-1]
+            ax.axvline(x=last_observed_date, color='#ff4136', linestyle=':', linewidth=2, label='Forecast Start')
+
+            # Set background color
+            ax.set_facecolor('#ffffff')
+            fig.patch.set_facecolor('#f4f4f4')
+
+            # Adjust y-axis to show all data points
+            y_min, y_max = ax.get_ylim()
+            ax.set_ylim(y_min - 0.1 * (y_max - y_min), y_max + 0.1 * (y_max - y_min))
+
+            # Adjust layout and save
+            plt.tight_layout()
+            plt.savefig(os.path.join(self.figure_directory, filename), dpi=300, bbox_inches='tight')
+            plt.close(fig)
+
+        self.logger.info(f">> END:: arima_forecast for page: {column_name}")
         return forecast_df, None, filename
 
+
+
     def arima_save_to_csv(self, arima_results):
-        print(">> START:: arima_save_to_csv")
-        # Prepare a dictionary to collect data for saving
+        """
+        Save the ARIMA results to a CSV file.
+
+        :param arima_results: Dictionary containing the ARIMA results.
+        """
+        self.logger.info(">> START:: arima_save_to_csv")
         rows = []
         for column, result in arima_results.items():
             forecast = result['forecast']
@@ -130,60 +223,77 @@ class ARIMAService:
                     'Mean_CI_Upper': row['mean_ci_upper']
                 })
 
-        # Create a DataFrame from the collected data
         df = pd.DataFrame(rows)
-
-        # Define file path and ensure the directory exists
         os.makedirs(os.path.dirname(self.csv_file_path), exist_ok=True)
-
-        # Save DataFrame to CSV
         df.to_csv(self.csv_file_path, index=False)
-        print(f"ARIMA results saved to {self.csv_file_path}")
-        print(">> END:: arima_save_to_csv")
+        self.logger.info(f"ARIMA results saved to {self.csv_file_path}")
+        self.logger.info(">> END:: arima_save_to_csv")
 
-    def load_arima_results(self):
-        print(">> START:: load_arima_results")
+    def load_arima_results(self,app):
+        """
+        Load the ARIMA results from the CSV file.
+
+        :return: Dictionary containing the ARIMA results.
+        """
+        self.logger.info(">> START:: load_arima_results")
+        self.check_and_load_arima(app=app)
 
         arima_results = {}
         figures_dir = self.figure_directory
 
-        # Check if CSV file exists
         if os.path.exists(self.csv_file_path):
-            # Load CSV into DataFrame
             df = pd.read_csv(self.csv_file_path, parse_dates=['Date'])
 
-            # Check each column in the DataFrame
             for column_name in df['Column'].unique():
-                # Filter the DataFrame for the current column
                 column_df = df[df['Column'] == column_name]
-
-                # Check if the corresponding figure exists
                 filename = f'arima_{column_name}.png'
                 figure_path = os.path.join(figures_dir, filename)
 
                 if os.path.exists(figure_path):
-                    # Reconstruct the forecast DataFrame for this column
                     forecast_df = column_df.set_index('Date')
-
-                    # Add to the arima_results dictionary
                     arima_results[column_name] = {
                         'forecast': forecast_df,
-                        'error': None,  # No error information in the CSV
+                        'error': None,
                         'filename': filename
                     }
                 else:
-                    print(f"Figure for column {filename} does not exist.")
+                    self.logger.warning(f"Figure for column {filename} does not exist.")
         else:
-            print(f"CSV file {self.csv_file_path} does not exist.")
+            self.logger.warning(f"CSV file {self.csv_file_path} does not exist.")
             return None
 
-        print(">> END:: load_arima_results")
+        self.logger.info(">> END:: load_arima_results")
         return arima_results
 
     def delete_csv_file(self):
+        """
+        Delete the CSV file containing the ARIMA results.
+        """
+        self.logger.info(">> START:: delete_csv_file")
         file_path = self.csv_file_path
         if os.path.exists(file_path):
             os.remove(file_path)
-            print(f"File {file_path} has been deleted.")
+            self.logger.info(f"File {file_path} has been deleted.")
         else:
-            print(f"No file found at {file_path}")
+            self.logger.warning(f"No file found at {file_path}")
+        self.logger.info(">> END:: delete_csv_file")
+
+    def check_and_load_arima(self,app):
+        """
+        Check if there are files in the arima_figures directory.
+        If the directory is empty, activate the load_default_arima function.
+        
+        :param app: Flask app instance
+        """
+
+        arima_figures_dir = os.path.join(app.static_folder, 'arima_figures')
+        arima_existing_figures = set(os.listdir(arima_figures_dir)) if os.path.exists(arima_figures_dir) else set()
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(arima_existing_figures)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+        if os.path.exists(arima_figures_dir) and os.listdir(arima_figures_dir):
+            self.logger.info("ARIMA figures already exist.")
+        else:
+            self.logger.info("ARIMA figures directory is empty. Loading default ARIMA results.")
+            self.run_arima_model(self.wiki_traffic_service.get_traffic_data_as_dataframe(),arima_existing_figures,7)

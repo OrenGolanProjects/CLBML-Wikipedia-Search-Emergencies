@@ -44,38 +44,23 @@
 </section>
 <!-- Peaks Detection Section -->
 
-<section id="correlation">
-    <h2>Correlation</h2>
-    <p>Correlation analysis results will be displayed here.</p>
-</section>
 
-<section id="auto-regression">
-    <h2>Auto Regression</h2>
-    <p>Auto regression analysis results will be displayed here.</p>
-</section>
 
-<div id="arima-section" class="section pt-4">
+<!-- ARIMA Model Section -->
+<section id="arima-carousel" class="arima-section">
     <h2>ARIMA Analysis Results</h2>
     <p>
         Our ARIMA analysis provides insights into time series forecasting. Each subject is represented by a table
         displaying the forecasted values and confidence intervals.
     </p>
-    <p>
-        The table includes the following columns:
-    </p>
-    <ul>
-        <li><strong>Date:</strong> The date for the forecasted value.</li>
-        <li><strong>Mean:</strong> The predicted mean value for the date.</li>
-        <li><strong>Mean CI Lower:</strong> The lower bound of the 95% confidence interval for the mean.</li>
-        <li><strong>Mean CI Upper:</strong> The upper bound of the 95% confidence interval for the mean.</li>
-    </ul>
     <div class="hive-container">
+        <!-- Create carousel for each subject -->
         {% for subject, arima_data in arima_results.items() %}
-        <div class="hive-cube wide-frame">
+        <div class="hive-cube">
             <h3>{{ subject }}</h3>
             <div id="carousel-arima-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <div class="carousel-item">
                         <div class="card">
                             <img src="{{ url_for('static', filename='arima_figures/' ~ arima_data['filename']) }}"
                                 class="card-img-top"
@@ -132,11 +117,7 @@
         </div>
         {% endfor %}
     </div>
-</div>
-
-<section id="cross-correlation">
-    <h2>Cross-correlation</h2>
-    <p>Cross-correlation analysis results will be displayed here.</p>
 </section>
+<!-- ARIMA Model Section -->
 
 {% endblock %}

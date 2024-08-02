@@ -7,7 +7,7 @@ from components.wikipedia_component import load_default_wikipedia_pages
 from components.wiki_traffic_component import load_wiki_traffic
 from components.arima_component import load_default_arima
 from components.peaks_component import reset_paeks
-from services.reset_service import ResetService 
+from services.reset_service import ResetService
 
 
 UPDATE_LOG_FILE = 'update_log.json'

@@ -31,6 +31,7 @@ header, footer {
 header {
     padding: 1rem 0;
 }
+
 /* Footer Styles */
 footer {
     margin-top: 40px; /* Increase the top margin for more space */
@@ -39,23 +40,27 @@ footer {
     border-top: 1px solid #ddd;
 }
 
-
 /* Navbar Styles */
 nav ul {
     list-style-type: none;
     padding: 0;
     text-align: center;
+    margin: 0;
+    background-color: #333; /* Add background color for better visibility */
 }
 
 nav ul li {
-    display: inline;
+    display: inline-block; /* Change to inline-block for better control */
     margin-right: 20px;
+    padding: 10px 15px; /* Add padding for better spacing */
 }
 
 nav ul li a {
     text-decoration: none;
     color: #ffffff;
     font-weight: bold;
+    font-size: 16px; /* Increase font size for better readability */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 nav ul li a:hover {
@@ -99,11 +104,10 @@ th {
 }
 
 th::after {
-    content: attr(data-text); /* Reuse the column name for the  */
+    content: attr(data-text); /* Reuse the column name for the */
     position: absolute;
     left: 100%; /* Start off-screen */
     white-space: nowrap;
-    
 }
 
 tr:nth-child(even) {
@@ -180,52 +184,18 @@ button:hover {
 .table-fixed td:nth-child(5) {
     width: 20%; /* Actions */
 }
+
+/* Modal Styles */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1050; /* Sit on top */
     left: 0;
     top: 0;
-    overflow: hidden; /* Hide overflow */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
-
-.modal-dialog {
-    margin: 0; /* Remove margins */
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-.modal-content {
-    position: relative;
-    width: auto; /* Auto width */
-    height: auto; /* Auto height */
-    border: none;
-    border-radius: 0;
-    background: transparent; /* Transparent background */
-    display: flex; /* Flex layout */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-.modal-body img {
-    width: auto; /* Adjust width automatically */
-    height: auto; /* Maintain aspect ratio */
-}
-.close {
-    animation-name: zoom;
-}
-
-
-.close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
 }
 
 .close:hover,
@@ -235,18 +205,13 @@ button:hover {
     cursor: pointer;
 }
 
-@media only screen and (max-width: 700px) {
-    .modal-content {
-        width: 300%;
-    }
-}
+
 .card-img-top {
     width: 100%;
     height: auto;
 }
 
-
-/* Ensure that the hive-container uses Flexbox for layout */
+/* Hive Container Styles */
 .hive-container {
     margin-top: 20px;
     display: flex;
@@ -306,6 +271,7 @@ button:hover {
     max-width: 100%;
     height: auto;
 }
+
 .scrollable-table-container {
     max-height: 150px; /* Adjust height as needed */
     overflow-y: auto;
@@ -325,7 +291,6 @@ button:hover {
     background-color: #f8f9fa; /* Background color to ensure header is visible */
     z-index: 1; /* Make sure the header stays on top of the table body */
     text-align: center; /* Align text to the left */
-
 }
 
 .scrollable-table-container th,
@@ -334,6 +299,7 @@ button:hover {
     padding: 8px; /* Padding inside cells */
     text-align: auto; /* Align text to the left */
 }
+
 .wide-frame {
     flex: 1 1 calc(50% - 20px);
     max-width: calc(50% - 20px);
@@ -434,6 +400,45 @@ button:hover {
         font-size: 14px;
     }
 }
+
 .peaks-detection-section {
     margin-bottom: 20px;
 }
+
+
+/* ---------------------- */
+.modal-xl .modal-dialog {
+    max-width: 1200px; 
+    width: 1200px;
+}
+
+/* Modal Styles */
+.modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80%;
+}
+
+
+
+
+/* ---------------------- */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    opacity: 1;
+    text-shadow: 0 0 3px rgba(0,0,0,0.8);
+}
+

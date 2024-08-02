@@ -128,7 +128,6 @@ class PeaksService:
 
         # If there are more than 15 peaks, increment the distance and prominence and run find_peaks again
         if len(peaks) > 15:
-            self.logger.warning(f"Number of peaks exceeds 15. Actual count: {len(peaks)}")
             initial_distance = distance if distance is not None else 1
             initial_prominence = prominence if prominence is not None else 0
             while len(peaks) > 15:
@@ -142,7 +141,6 @@ class PeaksService:
                     height=height,
                     width=width
                 )
-            self.logger.info(f"Adjusted distance to {initial_distance} and prominence to {initial_prominence} to reduce peaks count to {len(peaks)}")
 
         # Save the figure if peaks are detected
         if len(peaks) > 0:
@@ -152,7 +150,7 @@ class PeaksService:
 
             # Annotate the peaks with their dates, alternating positions to avoid overlap
             for i, peak in enumerate(peaks):
-                offset = 10 if i % 2 == 0 else -25  # Increased the offset values
+                offset = 10 if i % 2 == 0 else -10  # Increased the offset values
                 plt.annotate(data_column.index[peak].strftime('%Y-%m-%d'),
                             (data_column.index[peak], data_column.iloc[peak]),
                             textcoords="offset points",

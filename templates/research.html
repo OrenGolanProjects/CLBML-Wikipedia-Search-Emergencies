@@ -6,7 +6,7 @@
 <h1>Research Results</h1>
 
 <!-- Peaks Detection Section -->
-<section id="results-carousel" class="peaks-detection-section">
+<section id="results-carousel" class="btm-mrgin-section">
     <h2>Peaks Detection</h2>
     <p>    </p>
 
@@ -44,10 +44,57 @@
 </section>
 <!-- Peaks Detection Section -->
 
+<!-- Cross-Correlation Section -->
+<section id="cross-correlation-carousel" class="btm-mrgin-section">
+    <h2>Cross-Correlation Analysis Results</h2>
+    <p>
+        The cross-correlation analysis provides insights into the relationships between different time series data for each subject. 
+        The heatmaps below represent the correlation matrices for each subject, showing how different variables are correlated with each other.
+    </p>
+
+    <div class="hive-container">
+        <!-- Create carousel for each subject -->
+        {% for subject, data in cross_corr_results.items() %}
+        <div class="hive-cube">
+            <h3>{{ subject }}</h3>
+            <div id="carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='cross_corr_figures/' ~ data['line_plot']) }}"
+                                class="card-img-top" alt="{{ subject }}"
+                                onclick="openModal('{{ url_for('static', filename='cross_corr_figures/' ~ data['line_plot']) }}')">
+                        </div>
+
+                    </div>
+                    <div class="carousel-item">
+                        <div class="card">
+                            <p>Highest Correlation:</p>
+                            <p>{{ data['highest_corr']['column1'] }} and {{ data['highest_corr']['column2'] }}: {{ data['highest_corr']['correlation'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                    role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                    role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<!-- Cross-Correlation Section -->
 
 
 <!-- ARIMA Model Section -->
-<section id="arima-carousel" class="arima-section">
+<section id="arima-carousel" class="btm-mrgin-section">
     <h2>ARIMA Analysis Results</h2>
     <p>
         Our ARIMA analysis provides insights into time series forecasting. Each subject is represented by a table
@@ -60,7 +107,8 @@
             <h3>{{ subject }}</h3>
             <div id="carousel-arima-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
                 <div class="carousel-inner">
-                    <div class="carousel-item">
+
+                    <div class="carousel-item active">
                         <div class="card">
                             <img src="{{ url_for('static', filename='arima_figures/' ~ arima_data['filename']) }}"
                                 class="card-img-top"
@@ -71,6 +119,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="carousel-item">
                         <div class="card">
                             <div class="card-body">
@@ -100,6 +149,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <a class="carousel-control-prev"
                     href="#carousel-arima-{{ subject | replace(' ', '-') | replace('–', '-') }}" role="button"

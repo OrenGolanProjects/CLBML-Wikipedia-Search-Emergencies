@@ -22,17 +22,15 @@ class ARIMAService:
         self.logger = logging.getLogger(__name__)
         self.figure_directory = 'static/arima_figures'
         self.csv_file_path = './files/arima_results.csv'
-        self.check_and_create_figure_directory()
         self.wiki_traffic_service = WikiTrafficService()
 
-
-    def check_and_create_figure_directory(self):
+    def arima_check_directory_existence(self):
         """
         Check if the figure directory exists, delete it if it does, and create a new one.
         """
-        self.logger.info(">> START:: check_and_create_figure_directory")
+        self.logger.info(">> START:: arima_check_directory_existence")
         os.makedirs(self.figure_directory, exist_ok=True)
-        self.logger.info(">> END:: check_and_create_figure_directory")
+        self.logger.info(">> END:: arima_check_directory_existence")
 
     def find_best_arima_order(self, data, column):
         """
@@ -47,14 +45,14 @@ class ARIMAService:
 
         # Check for NaN values and handle them
         if data[column].isna().any():
-            self.logger.warning(f"Column {column} contains NaN values. Removing leading NaNs.")
+            self.logger.warning(f"       Column {column} contains NaN values. Removing leading NaNs.")
             # Remove leading NaNs
             data = data.loc[data[column].first_valid_index():]
             # Forward and backward fill remaining NaNs
             data[column] = data[column].fillna(method='ffill')
             data[column] = data[column].fillna(method='bfill')
 
-        self.logger.info(f"Finding best ARIMA order for column {column}")
+        self.logger.info(f"       Finding best ARIMA order for column {column}")
         model = auto_arima(data[column], seasonal=False, stepwise=True, suppress_warnings=True)
         self.logger.info(">> END:: find_best_arima_order")
         return model.order
@@ -116,7 +114,6 @@ class ARIMAService:
         self.logger.info(">> END:: run_arima_model")
         return arima_results
 
-
     def arima_forecast(self, df, column_name, existing_figures, steps=7):
         """
         Perform ARIMA forecasting for a specific column in the DataFrame.
@@ -175,10 +172,6 @@ class ARIMAService:
             ax.legend(loc='upper left', fontsize=10, frameon=True, framealpha=0.8, facecolor='#f4f4f4', edgecolor='#ddd')
 
             # Add ARIMA formula text
-            # The 'order' tuple represents the parameters (p, d, q) of the ARIMA model:
-            # p: The number of lag observations included in the model (autoregressive part).
-            # d: The number of times that the raw observations are differenced (differencing part).
-            # q: The size of the moving average window (moving average part).
             formula_text = f'ARIMA({order[0]},{order[1]},{order[2]}), p={order[0]} lag observations, d={order[1]} times, q={order[2]} moving average'
             ax.text(0.05, 0.05, formula_text, transform=ax.transAxes, fontsize=14, fontweight='bold', verticalalignment='bottom', bbox=dict(facecolor='#ff4136', edgecolor='#ddd', alpha=0.8), color='#333')
 
@@ -202,8 +195,6 @@ class ARIMAService:
         self.logger.info(f">> END:: arima_forecast for page: {column_name}")
         return forecast_df, None, filename
 
-
-
     def arima_save_to_csv(self, arima_results):
         """
         Save the ARIMA results to a CSV file.
@@ -226,10 +217,10 @@ class ARIMAService:
         df = pd.DataFrame(rows)
         os.makedirs(os.path.dirname(self.csv_file_path), exist_ok=True)
         df.to_csv(self.csv_file_path, index=False)
-        self.logger.info(f"ARIMA results saved to {self.csv_file_path}")
+        self.logger.info(f"       ARIMA results saved to {self.csv_file_path}")
         self.logger.info(">> END:: arima_save_to_csv")
 
-    def load_arima_results(self,app):
+    def load_arima_results(self, app):
         """
         Load the ARIMA results from the CSV file.
 
@@ -257,9 +248,9 @@ class ARIMAService:
                         'filename': filename
                     }
                 else:
-                    self.logger.warning(f"Figure for column {filename} does not exist.")
+                    self.logger.warning(f"       Figure for column {filename} does not exist.")
         else:
-            self.logger.warning(f"CSV file {self.csv_file_path} does not exist.")
+            self.logger.warning(f"       CSV file {self.csv_file_path} does not exist.")
             return None
 
         self.logger.info(">> END:: load_arima_results")
@@ -273,27 +264,23 @@ class ARIMAService:
         file_path = self.csv_file_path
         if os.path.exists(file_path):
             os.remove(file_path)
-            self.logger.info(f"File {file_path} has been deleted.")
+            self.logger.info(f"       File {file_path} has been deleted.")
         else:
-            self.logger.warning(f"No file found at {file_path}")
+            self.logger.warning(f"       No file found at {file_path}")
         self.logger.info(">> END:: delete_csv_file")
 
-    def check_and_load_arima(self,app):
+    def check_and_load_arima(self, app):
         """
         Check if there are files in the arima_figures directory.
         If the directory is empty, activate the load_default_arima function.
         
         :param app: Flask app instance
         """
-
         arima_figures_dir = os.path.join(app.static_folder, 'arima_figures')
         arima_existing_figures = set(os.listdir(arima_figures_dir)) if os.path.exists(arima_figures_dir) else set()
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(arima_existing_figures)
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
         if os.path.exists(arima_figures_dir) and os.listdir(arima_figures_dir):
-            self.logger.info("ARIMA figures already exist.")
+            self.logger.info("       ARIMA figures already exist.")
         else:
-            self.logger.info("ARIMA figures directory is empty. Loading default ARIMA results.")
-            self.run_arima_model(self.wiki_traffic_service.get_traffic_data_as_dataframe(),arima_existing_figures,7)
+            self.logger.info("       ARIMA figures directory is empty. Loading default ARIMA results.")
+            self.run_arima_model(self.wiki_traffic_service.get_traffic_data_as_dataframe(), arima_existing_figures, 7)

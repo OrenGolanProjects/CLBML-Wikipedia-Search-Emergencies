@@ -1,12 +1,15 @@
 import os
 import json
+
 from datetime import datetime
 from utils.database import create_tables
+
 from components.events_component import load_default_events
 from components.wikipedia_component import load_default_wikipedia_pages
 from components.wiki_traffic_component import load_wiki_traffic
 from components.arima_component import load_default_arima
 from components.peaks_component import reset_paeks
+
 from services.reset_service import ResetService
 
 
@@ -29,8 +32,9 @@ def update_log():
         json.dump(data, file)
 
 def perform_updates(app):
-    reset_service = ResetService()  # Instantiate the ResetService
-    reset_service.reset_files_and_directories()  # Reset files and directories
+    reset_service = ResetService()
+    reset_service.remove_files_and_directories()
+    reset_service.create_directories()
 
     with app.app_context():
         create_tables(app)

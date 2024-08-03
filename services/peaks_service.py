@@ -1,4 +1,3 @@
-
 from scipy.signal import find_peaks
 import os
 import logging
@@ -6,8 +5,6 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
-
-
 
 class PeaksService:
     """
@@ -23,14 +20,14 @@ class PeaksService:
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(level=logging.INFO)
 
-    def peaks_check_and_create_figure_directory(self):
+    def peaks_check_directory_existence(self):
         """
         Ensure the figure directory exists.
         """
-        self.logger.info(">> START:: peaks_check_and_create_figure_directory")
+        self.logger.info(">> START:: peaks_check_directory_existence")
         os.makedirs(self.figure_directory, exist_ok=True)
         self.logger.info(f"Ensured directory exists: {self.figure_directory}")
-        self.logger.info(">> END:: peaks_check_and_create_figure_directory")
+        self.logger.info(">> END:: peaks_check_directory_existence")
 
     def load_peaks_figures(self, app):
         """

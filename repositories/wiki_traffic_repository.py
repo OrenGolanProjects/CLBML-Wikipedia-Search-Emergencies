@@ -1,3 +1,4 @@
+
 from sqlalchemy import Table, Column, Date, Float, MetaData
 from utils.database import db
 

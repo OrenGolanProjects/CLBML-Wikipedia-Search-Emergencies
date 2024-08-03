@@ -46,7 +46,7 @@ nav ul {
     padding: 0;
     text-align: center;
     margin: 0;
-    background-color: #333; /* Add background color for better visibility */
+
 }
 
 nav ul li {
@@ -401,7 +401,7 @@ button:hover {
     }
 }
 
-.peaks-detection-section {
+.btm-mrgin-section {
     margin-bottom: 20px;
 }
 
@@ -442,3 +442,8 @@ button:hover {
     text-shadow: 0 0 3px rgba(0,0,0,0.8);
 }
 
+
+
+.narrow-input {
+    max-width: 100px;
+}

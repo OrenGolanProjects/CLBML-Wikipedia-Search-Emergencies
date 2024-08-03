@@ -1,50 +1,155 @@
-{% extends "base.html" %}
-{% block title %}Welcome{% endblock %}
-{% block content %}
-<h1>Welcome to the CLB Machine Learning Project</h1>
-<p>This application facilitates the management of events and Wikipedia pages pertaining to emergencies and disasters. Please utilize the navigation above to explore the various sections.</p>
-
-<h2>Purpose of the Study</h2>
-<p>The objective of this study is to determine whether the traffic on Wikipedia pages concerning disasters and emergencies can be utilized to gauge public awareness and interest.</p>
-
-<h2>Research Questions</h2>
-<ol>
-    <li>What factors contribute to the temporary spikes in traffic on disaster and emergency Wikipedia pages?</li>
-    <li>What is the nature of the relationship between disaster and emergency Wikipedia pages in different languages?</li>
-    <li>Is there a correlation between the traffic patterns of various disaster and emergency Wikipedia pages?</li>
-    <li>Can external factors be leveraged to predict traffic on disaster and emergency Wikipedia pages?</li>
-    <li>Is there a significant relationship between Google search trends and the view patterns on relevant Wikipedia pages during emergencies and disasters?</li>
-</ol>
-
-<h2>Peak Detection Settings</h2>
-<p>Please provide the settings for peak detection in the form below:</p>
-
-<!-- Form Container -->
-<div class="form-container">
-    <!-- Form for Peak Detection Settings -->
-    <form method="POST" action="{{ url_for('research') }}" class="peak-detection-form">
-        <div class="form-group">
-            <label for="threshold">Threshold:</label>
-            <input type="number" class="form-control" id="threshold"    name="threshold"    placeholder="Threshold" value="2" required>
-        </div>
-        <div class="form-group">
-            <label for="distance">Distance:</label>
-            <input type="number" class="form-control" id="distance"     name="distance"     placeholder="Distance" value="2" required>
-        </div>
-        <div class="form-group">
-            <label for="prominence">Prominence:</label>
-            <input type="number" class="form-control" id="prominence"   name="prominence"   placeholder="Prominence" value="100" required>
-        </div>
-        <div class="form-group">
-            <label for="height">Height:</label>
-            <input type="number" class="form-control" id="height"       name="height"   placeholder="Height" value="1" required>
-        </div>
-        <div class="form-group">
-            <label for="width">Width:</label>
-            <input type="number" class="form-control" id="width"        name="width"    placeholder="Width" value="1" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
-
-{% endblock %}
+{% extends "base.html" %} {% block title %}Welcome{% endblock %} {% block
+    content %}
+    <h1>Welcome to the CLB Machine Learning Project</h1>
+    <p>
+        This application facilitates the management of events and Wikipedia pages
+        pertaining to emergencies and disasters. Please utilize the navigation above
+        to explore the various sections.
+    </p>
+    
+    <h2>Purpose of the Study</h2>
+    <p>
+        The objective of this study is to determine whether the traffic on Wikipedia
+        pages concerning disasters and emergencies can be utilized to gauge public
+        awareness and interest.
+    </p>
+    
+    <h2>Research Questions</h2>
+    <ol>
+        <li>
+            What factors contribute to the temporary spikes in traffic on disaster
+            and
+            emergency Wikipedia pages?
+        </li>
+        <li>
+            What is the nature of the relationship between disaster and emergency
+            Wikipedia pages in different languages?
+        </li>
+        <li>
+            Is there a correlation between the traffic patterns of various disaster
+            and
+            emergency Wikipedia pages?
+        </li>
+        <li>
+            Can external factors be leveraged to predict traffic on disaster and
+            emergency Wikipedia pages?
+        </li>
+        <li>
+            Is there a significant relationship between Google search trends and the
+            view patterns on relevant Wikipedia pages during emergencies and
+            disasters?
+        </li>
+    </ol>
+    
+    <h2>Research Settings</h2>
+    <p>Please provide the settings in the form below:</p>
+    
+    <!-- Form Container -->
+    <div class="form-container">
+        <!-- Form for Peak Detection Settings -->
+        <form
+            method="POST"
+            action="{{ url_for('research') }}"
+            class="peak-detection-form">
+            <!-- First Row: Peaks Detection -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="peaks-detection-section">
+                        <h3>Peak Detection</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-2 mr-2">
+                                <label for="threshold">Threshold:</label>
+                                <input
+                                    type="number"
+                                    class="form-control narrow-input"
+                                    id="threshold"
+                                    name="threshold"
+                                    placeholder="Threshold"
+                                    value="2"
+                                    max="999"
+                                    required
+                                    title="Set the threshold value for peak detection" />
+                            </div>
+                            <div class="form-group col-md-2 mr-2">
+                                <label for="distance">Distance:</label>
+                                <input
+                                    type="number"
+                                    class="form-control narrow-input"
+                                    id="distance"
+                                    name="distance"
+                                    placeholder="Distance"
+                                    value="2"
+                                    max="999"
+                                    required
+                                    title="Set the minimum distance between peaks" />
+                            </div>
+                            <div class="form-group col-md-2 mr-2">
+                                <label for="prominence">Prominence:</label>
+                                <input
+                                    type="number"
+                                    class="form-control narrow-input"
+                                    id="prominence"
+                                    name="prominence"
+                                    placeholder="Prominence"
+                                    value="100"
+                                    max="999"
+                                    required
+                                    title="Set the prominence value for peak detection" />
+                            </div>
+                            <div class="form-group col-md-2 mr-2">
+                                <label for="height">Height:</label>
+                                <input
+                                    type="number"
+                                    class="form-control narrow-input"
+                                    id="height"
+                                    name="height"
+                                    placeholder="Height"
+                                    value="1"
+                                    max="999"
+                                    required
+                                    title="Set the height value for peak detection" />
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="width">Width:</label>
+                                <input
+                                    type="number"
+                                    class="form-control narrow-input"
+                                    id="width"
+                                    name="width"
+                                    placeholder="Width"
+                                    value="1"
+                                    max="999"
+                                    required
+                                    title="Set the width value for peak detection" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Second Row: ARIMA Model -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="arima-model-section">
+                        <h3>ARIMA Model</h3>
+                        <div class="form-group">
+                            <label for="days_to_forecast">Days to Forecast:</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="days_to_forecast"
+                                name="days_to_forecast"
+                                placeholder="Days to Forecast"
+                                value="10"
+                                required
+                                title="Set the number of days to forecast using the ARIMA model" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    
+    {% endblock %}

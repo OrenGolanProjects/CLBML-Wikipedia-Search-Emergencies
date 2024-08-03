@@ -9,6 +9,7 @@ from components.wikipedia_component import load_default_wikipedia_pages
 from components.wiki_traffic_component import load_wiki_traffic
 from components.arima_component import load_default_arima
 from components.peaks_component import reset_paeks
+from components.auto_correlation_component import load_default_auto_correlation
 
 from services.reset_service import ResetService
 
@@ -43,4 +44,5 @@ def perform_updates(app):
         load_wiki_traffic()
         reset_paeks(app)
         load_default_arima(app)
+        load_default_auto_correlation(app)
         update_log()

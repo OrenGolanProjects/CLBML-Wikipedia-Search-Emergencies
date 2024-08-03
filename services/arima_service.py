@@ -253,8 +253,19 @@ class ARIMAService:
             self.logger.warning(f"       CSV file {self.csv_file_path} does not exist.")
             return None
 
+        if arima_results:
+            # Group images by subject
+            subjects = {}
+            for key, data in arima_results.items():
+                parts = key.split('_', 1)
+                if len(parts) > 1:
+                    subject = parts[1]
+                    if subject not in subjects:
+                        subjects[subject] = []
+                    subjects[subject].append(data)
+
         self.logger.info(">> END:: load_arima_results")
-        return arima_results
+        return subjects
 
     def delete_csv_file(self):
         """

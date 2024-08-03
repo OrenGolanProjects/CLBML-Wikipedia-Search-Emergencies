@@ -16,6 +16,7 @@ from services.wiki_traffic_service import WikiTrafficService
 from services.peaks_service import PeaksService
 from services.arima_service import ARIMAService
 from services.cross_corr_service import CrossCorrelationService
+from services.auto_correlation_service import AutoCorrelationService
 
 from components.update_check_component import has_updated_today, perform_updates
 
@@ -121,11 +122,13 @@ def research():
     arima_service = ARIMAService()
     cross_corr_service = CrossCorrelationService()
     peaks_service = PeaksService()
+    auto_corr_service = AutoCorrelationService()
 
     # Check if directories exist
     peaks_service.peaks_check_directory_existence()
     cross_corr_service.cross_corr_check_directory_existence()
     arima_service.arima_check_directory_existence()
+    auto_corr_service.auto_corr_check_directory_existence()
 
     # Get traffic data from Wikipedia API
     merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
@@ -163,24 +166,30 @@ def research():
     merged_df = wiki_traffic_service.read_traffic_data_from_csv()
 
     # ========================================================
-    # ================ ARIMA MODEL ===========================
+    # ================ AUTO-CORRELATION ======================
     # ========================================================
-
-    # Run ARIMA model analysis for all events
-    arima_results = arima_service.load_arima_results(app=app)
-
-    logger.info("=== arima model done.")
+    merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
+    auto_corr_results = auto_corr_service.perform_auto_corr(merged_df)
 
     # ========================================================
     # ================ CROSS-CORRELATION =====================
     # ========================================================
     merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
-
     cross_corr_results = cross_corr_service.perform_cross_corr(merged_df)
 
-    logger.info(">> END:: /research")
+    # ========================================================
+    # ================ ARIMA MODEL ===========================
+    # ========================================================
+    arima_results = arima_service.load_arima_results(app=app)
 
-    return render_template('research.html', peaks_results=peaks_results, arima_results=arima_results, cross_corr_results=cross_corr_results)
+    logger.info("=== arima model done.")
+
+    logger.info(">> END:: /research")
+    return render_template('research.html', 
+                        peaks_results=peaks_results, 
+                        arima_results=arima_results, 
+                        cross_corr_results=cross_corr_results,
+                        auto_corr_results=auto_corr_results)
 
 if __name__ == '__main__':
     app.run(debug=True)

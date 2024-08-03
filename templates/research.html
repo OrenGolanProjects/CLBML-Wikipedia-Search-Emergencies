@@ -8,7 +8,9 @@
 <!-- Peaks Detection Section -->
 <section id="results-carousel" class="btm-mrgin-section">
     <h2>Peaks Detection</h2>
-    <p>    </p>
+    <p>The peaks detection analysis provides insights into the time series data for each subject. The heatmaps below
+        represent the detected peaks for each subject, showing the peaks detected in the data.
+    </p>
 
     <div class="hive-container">
         <!-- Create carousel for each subject -->
@@ -44,6 +46,45 @@
 </section>
 <!-- Peaks Detection Section -->
 
+<!-- Auto-Correlation Section -->
+<section id="auto-correlation" class="section btm-mrgin-section">
+    <h2>Auto-Correlation Analysis Results</h2>
+    <p>The auto-correlation analysis provides insights into the relationships between different time series data for each subject. The plots below represent the auto-correlation for each variable.</p>
+
+    <div class="hive-container">
+        {% for subject, results in auto_corr_results.items() %}
+        <div class="hive-cube">
+            <h3>{{ subject }}</h3>
+            <div id="carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
+                <div class="carousel-inner">
+                    {% for result in results %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='auto_corr_figures/' ~ result['auto_corr_plot']) }}" 
+                                    class="card-img-top" 
+                                    alt="Auto-correlation for {{ subject }}"
+                                    onclick="openModal('{{ url_for('static', filename='auto_corr_figures/' ~ result['auto_corr_plot']) }}')">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                    role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                    role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<!-- Auto-Correlation Section -->
+
 <!-- Cross-Correlation Section -->
 <section id="cross-correlation-carousel" class="btm-mrgin-section">
     <h2>Cross-Correlation Analysis Results</h2>
@@ -60,13 +101,11 @@
             <div id="carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-
                         <div class="card">
                             <img src="{{ url_for('static', filename='cross_corr_figures/' ~ data['line_plot']) }}"
                                 class="card-img-top" alt="{{ subject }}"
                                 onclick="openModal('{{ url_for('static', filename='cross_corr_figures/' ~ data['line_plot']) }}')">
                         </div>
-
                     </div>
                     <div class="carousel-item">
                         <div class="card">
@@ -93,6 +132,7 @@
 <!-- Cross-Correlation Section -->
 
 
+
 <!-- ARIMA Model Section -->
 <section id="arima-carousel" class="btm-mrgin-section">
     <h2>ARIMA Analysis Results</h2>
@@ -102,24 +142,20 @@
     </p>
     <div class="hive-container">
         <!-- Create carousel for each subject -->
-        {% for subject, arima_data in arima_results.items() %}
+        {% for subject, arima_data_list in arima_results.items() %}
         <div class="hive-cube">
             <h3>{{ subject }}</h3>
             <div id="carousel-arima-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
                 <div class="carousel-inner">
 
-                    <div class="carousel-item active">
+                    {% for arima_data in arima_data_list %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
                         <div class="card">
                             <img src="{{ url_for('static', filename='arima_figures/' ~ arima_data['filename']) }}"
-                                class="card-img-top"
-                                alt="ARIMA Analysis for {{ subject }}"
+                                class="card-img-top" alt="{{ subject }}"
                                 onclick="openModal('{{ url_for('static', filename='arima_figures/' ~ arima_data['filename']) }}')">
-                            <div class="card-body">
-                                <h5 class="card-title">ARIMA Plot</h5>
-                            </div>
                         </div>
                     </div>
-
                     <div class="carousel-item">
                         <div class="card">
                             <div class="card-body">
@@ -149,6 +185,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
 
                 </div>
                 <a class="carousel-control-prev"

@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import logging
+import numpy as np
 
 from pmdarima import auto_arima
 from statsmodels.tsa.arima.model import ARIMA
@@ -150,10 +151,7 @@ class ARIMAService:
             ax.plot(forecast_df.index, forecast_df['mean'], label='Forecast', color='#e8491d', linestyle='--', marker='s', markersize=2)
 
             # Fill between the confidence intervals
-            ax.fill_between(forecast_df.index,
-                            forecast_df['mean_ci_lower'],
-                            forecast_df['mean_ci_upper'],
-                            color='#e8491d', alpha=0.2, label='95% Confidence Interval')
+            ax.fill_between(forecast_df.index,forecast_df['mean_ci_lower'],forecast_df['mean_ci_upper'],color='#e8491d', alpha=0.2, label='95% Confidence Interval')
 
             # Customize the plot
             ax.set_xlabel('Date', fontsize=12, fontweight='bold', color='#333')
@@ -171,9 +169,21 @@ class ARIMAService:
             # Customize legend
             ax.legend(loc='upper left', fontsize=12, frameon=True, framealpha=0.8, facecolor='#f4f4f4', edgecolor='#ddd')
 
+            # Extract important details from the results
+            aic = results.aic
+            bic = results.bic
+            log_likelihood = results.llf
+            residual_std_error = np.sqrt(results.scale)
+
             # Add ARIMA formula text
-            formula_text = f'ARIMA({order[0]},{order[1]},{order[2]}), p={order[0]} lag observations, d={order[1]} times, q={order[2]} moving average'
-            ax.text(0.05, 0.05, formula_text, transform=ax.transAxes, fontsize=14, fontweight='bold', verticalalignment='bottom', bbox=dict(facecolor='#ff4136', edgecolor='#ddd', alpha=0.8), color='#333')
+            formula_text = (
+                f'ARIMA({order[0]},{order[1]},{order[2]})   '
+                f'Formula: $y_t = c + \\phi_1 y_{{t-1}} + \\theta_1 \\epsilon_{{t-1}}$   '
+                f'AIC: {aic:.2f}, BIC: {bic:.2f}   '
+                f'Log-Likelihood: {log_likelihood:.2f}   '
+                f'Residual Std Error: {residual_std_error:.4f}'
+            )
+            ax.text(0.05, 0.05, formula_text, transform=ax.transAxes, fontsize=20, fontweight='bold', verticalalignment='bottom', bbox=dict(facecolor='#ff4136', edgecolor='#ddd', alpha=0.8), color='#333')
 
             # Add a vertical line to separate observed and forecasted data
             last_observed_date = df.index[-1]

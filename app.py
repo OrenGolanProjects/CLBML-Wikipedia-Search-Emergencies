@@ -177,4 +177,4 @@ def research():
                         auto_corr_results=auto_corr_results)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

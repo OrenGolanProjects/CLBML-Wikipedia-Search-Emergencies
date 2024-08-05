@@ -8,8 +8,7 @@ def load_default_arima(app):
     wiki_traffic_service = WikiTrafficService()
 
     # Check for existing arima figures
-    arima_figures_dir = os.path.join(app.static_folder, 'arima_figures')
-    arima_existing_figures = set(os.listdir(arima_figures_dir)) if os.path.exists(arima_figures_dir) else set()
+    arima_service.arima_check_directory_existence()
 
     # arima_service.run_arima_model(wiki_traffic_service.get_traffic_data_as_dataframe(),arima_existing_figures,7)
 

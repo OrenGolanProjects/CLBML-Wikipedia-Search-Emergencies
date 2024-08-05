@@ -158,7 +158,7 @@ class ARIMAService:
             # Customize the plot
             ax.set_xlabel('Date', fontsize=12, fontweight='bold', color='#333')
             ax.set_ylabel('Value', fontsize=12, fontweight='bold', color='#333')
-            ax.set_title(f'ARIMA Forecast for {column_name}', fontsize=16, fontweight='bold', color='#35424a')
+            ax.set_title(f'ARIMA Forecast for {column_name} (Forcast {steps} Days)', fontsize=16, fontweight='bold', color='#35424a')
 
             # Improve x-axis
             ax.xaxis.set_major_locator(mdates.AutoDateLocator())
@@ -169,7 +169,7 @@ class ARIMAService:
             ax.grid(True, which='both', linestyle='--', linewidth=0.5, alpha=0.6, color='#ddd')
 
             # Customize legend
-            ax.legend(loc='upper left', fontsize=10, frameon=True, framealpha=0.8, facecolor='#f4f4f4', edgecolor='#ddd')
+            ax.legend(loc='upper left', fontsize=12, frameon=True, framealpha=0.8, facecolor='#f4f4f4', edgecolor='#ddd')
 
             # Add ARIMA formula text
             formula_text = f'ARIMA({order[0]},{order[1]},{order[2]}), p={order[0]} lag observations, d={order[1]} times, q={order[2]} moving average'
@@ -220,38 +220,34 @@ class ARIMAService:
         self.logger.info(f"       ARIMA results saved to {self.csv_file_path}")
         self.logger.info(">> END:: arima_save_to_csv")
 
-    def load_arima_results(self, app):
+    def load_arima_results(self, app,arima_daysToForcast=1):
         """
         Load the ARIMA results from the CSV file.
 
         :return: Dictionary containing the ARIMA results.
         """
         self.logger.info(">> START:: load_arima_results")
-        self.check_and_load_arima(app=app)
+        self.check_and_load_arima(app=app,arima_daysToForcast=arima_daysToForcast)
 
         arima_results = {}
-        figures_dir = self.figure_directory
 
-        if os.path.exists(self.csv_file_path):
-            df = pd.read_csv(self.csv_file_path, parse_dates=['Date'])
+        df = pd.read_csv(self.csv_file_path, parse_dates=['Date'])
 
-            for column_name in df['Column'].unique():
-                column_df = df[df['Column'] == column_name]
-                filename = f'arima_{column_name}.png'
-                figure_path = os.path.join(figures_dir, filename)
+        for column_name in df['Column'].unique():
+            column_df = df[df['Column'] == column_name]
+            filename = f'arima_{column_name}.png'
+            figure_path = os.path.join(self.figure_directory, filename)
 
-                if os.path.exists(figure_path):
-                    forecast_df = column_df.set_index('Date')
-                    arima_results[column_name] = {
-                        'forecast': forecast_df,
-                        'error': None,
-                        'filename': filename
-                    }
-                else:
-                    self.logger.warning(f"       Figure for column {filename} does not exist.")
-        else:
-            self.logger.warning(f"       CSV file {self.csv_file_path} does not exist.")
-            return None
+            if os.path.exists(figure_path):
+                forecast_df = column_df.set_index('Date')
+                arima_results[column_name] = {
+                    'forecast': forecast_df,
+                    'error': None,
+                    'filename': filename
+                }
+            else:
+                self.logger.warning(f"       Figure for column {filename} does not exist.")
+
 
         if arima_results:
             # Group images by subject
@@ -280,7 +276,7 @@ class ARIMAService:
             self.logger.warning(f"       No file found at {file_path}")
         self.logger.info(">> END:: delete_csv_file")
 
-    def check_and_load_arima(self, app):
+    def check_and_load_arima(self, app,arima_daysToForcast=1):
         """
         Check if there are files in the arima_figures directory.
         If the directory is empty, activate the load_default_arima function.
@@ -294,4 +290,4 @@ class ARIMAService:
             self.logger.info("       ARIMA figures already exist.")
         else:
             self.logger.info("       ARIMA figures directory is empty. Loading default ARIMA results.")
-            self.run_arima_model(self.wiki_traffic_service.get_traffic_data_as_dataframe(), arima_existing_figures, 7)
+            self.run_arima_model(self.wiki_traffic_service.get_traffic_data_as_dataframe(), arima_existing_figures, arima_daysToForcast)

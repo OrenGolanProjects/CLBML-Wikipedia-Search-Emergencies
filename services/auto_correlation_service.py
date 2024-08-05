@@ -74,7 +74,7 @@ class AutoCorrelationService:
         self.logger.info(f"Ensured directory exists: {self.figure_directory}")
         self.logger.info(">> END:: auto_corr_check_directory_existence")
 
-    def perform_auto_corr(self, df):
+    def perform_auto_corr(self, df,days_to_autocorrelate=1):
         self.logger.info(">> START:: perform_auto_corr")
 
         if df.empty:
@@ -96,12 +96,12 @@ class AutoCorrelationService:
                 series = series.fillna(0)  # or use series.interpolate() for interpolation
 
                 # Calculate auto-correlation
-                autocorr = self.auto_correlation(series)
+                autocorr = self.auto_correlation(series, days_to_autocorrelate=days_to_autocorrelate)
 
                 # Plot the auto-correlation
                 plt.figure(figsize=(12, 6))
-                plt.acorr(series, maxlags=50)
-                plt.title(f"Auto-correlation for {col}")
+                plt.acorr(series, maxlags=days_to_autocorrelate, color='blue', alpha=1)
+                plt.title(f"Auto-correlation for {col} (Last {days_to_autocorrelate} Days)")
                 plt.xlabel("Lag")
                 plt.ylabel("Auto-correlation")
                 plt.tight_layout()
@@ -109,7 +109,6 @@ class AutoCorrelationService:
                 filepath = f'auto_corr_{col}.png'
                 plt.savefig(os.path.join(self.figure_directory, filepath))
                 plt.close()
-
                 result_file_paths[col] = {
                     'auto_corr_plot': filepath,
                     'auto_correlation': autocorr
@@ -135,9 +134,13 @@ class AutoCorrelationService:
             self.logger.info(">> END:: perform_auto_corr")
             return result_file_paths
 
-    def auto_correlation(self, series):
+    def auto_correlation(self, series, days_to_autocorrelate=40):
         # Remove NaN values
         series = series.dropna()
+
+        # Adjust series to consider only the last 40 days
+        if days_to_autocorrelate < len(series):
+            series = series[-days_to_autocorrelate:]
 
         # Calculate auto-correlation
         autocorr = np.correlate(series, series, mode='full')

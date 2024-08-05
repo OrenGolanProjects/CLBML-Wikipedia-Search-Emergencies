@@ -11,7 +11,7 @@ def load_default_arima(app):
     arima_figures_dir = os.path.join(app.static_folder, 'arima_figures')
     arima_existing_figures = set(os.listdir(arima_figures_dir)) if os.path.exists(arima_figures_dir) else set()
 
-    arima_service.run_arima_model(wiki_traffic_service.get_traffic_data_as_dataframe(),arima_existing_figures,7)
+    # arima_service.run_arima_model(wiki_traffic_service.get_traffic_data_as_dataframe(),arima_existing_figures,7)
 
     print("Default arima results loaded successfully.")
     print(">> END:: load_default_arima")

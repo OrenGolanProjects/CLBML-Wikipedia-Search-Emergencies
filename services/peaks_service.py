@@ -46,7 +46,7 @@ class PeaksService:
         self.logger.info(">> END:: load_peaks_figures")
         return peaks_existing_figures
 
-    def detect_peaks(self, df, threshold=None, distance=None, prominence=None, height=None, width=None):
+    def detect_peaks(self, df, peaks_toFind=10):
         """
         Detect peaks in the dataframe and save figures.
 
@@ -78,7 +78,7 @@ class PeaksService:
                 data.set_index('date', inplace=True)
                 data[column] = data[column].rolling(window=3, min_periods=1).mean()
 
-                peaks_info = self.peaks_optimize(data[column], threshold, distance, prominence, height, width, peak_filename)
+                peaks_info = self.peaks_optimize(data[column], 2, 2, 100, 1, 1, peak_filename)
                 if peaks_info:
                     peaks_dict[column] = peaks_info
 

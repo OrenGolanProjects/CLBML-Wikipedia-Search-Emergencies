@@ -222,8 +222,8 @@ button:hover {
 
 /* Style for each hive cube */
 .hive-cube {
-    flex: 1 1 calc(33.333% - 20px); /* Make each cube take up approximately one-third of the container width minus gap */
-    max-width: calc(33.333% - 20px); /* Ensure cubes do not exceed the calculated width */
+    flex: 1 1 calc(100% - 20px); /* Make each cube take up approximately one-third of the container width minus gap */
+    max-width: calc(100% - 20px); /* Ensure cubes do not exceed the calculated width */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
     background-color: #fff; /* Optional: Background color for better visibility */
     border: 1px solid #ddd; /* Optional: Border for better visibility */
@@ -446,4 +446,55 @@ button:hover {
 
 .narrow-input {
     max-width: 100px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.carousel-item {
+    text-align: center;
+}
+
+.card {
+    margin: 10px;
+}
+
+.card-img-top {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+.table-sm th,
+.table-sm td {
+    padding: 0.3rem;
 }

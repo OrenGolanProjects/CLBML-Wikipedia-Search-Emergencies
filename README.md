@@ -66,8 +66,8 @@ To set up the project after downloading it from Git, follow these steps:
 
 1. **Clone the repository:**
    ```sh
-    git clone <repository-url>
-    cd <repository-directory>
+   git clone <repository-url>
+   cd <repository-directory>
    ```
 2. **Create and activate a virtual environment:**
 
@@ -87,7 +87,7 @@ To set up the project after downloading it from Git, follow these steps:
 ```
     FLASK_APP=app.py
     FLASK_ENV=development
-    DATABASE_URI=sqlite:///CLBML.db
+    DATABASE_URI=sqlite://clear/CLBML.db
     SQLALCHEMY_TRACK_MODIFICATIONS=False
     DELETE_DATABASES=True
 ```
@@ -95,14 +95,17 @@ To set up the project after downloading it from Git, follow these steps:
 5. **Open the project in VSCode.**
 6. **Open a new terminal:**
     - In the top menu bar, click on Terminal and then select New Terminal.
-7. **Activate the virtual environment:**
+7. **Activate the virtual environment and update python pip:**
 ```
     venv\Scripts\activate  # On Windows
     # source venv/bin/activate  # On macOS/Linux
+    python.exe -m pip install --upgrade pip
 ```
 8. **Run the Flask application:**
 ```
     flask run
+    or
+    flask run --debug # for debug mode!
 ```
 9. **Access the application:**
     - Open your web browser and navigate to http://127.0.0.1:5000/ to access the application.

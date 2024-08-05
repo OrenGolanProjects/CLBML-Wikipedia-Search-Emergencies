@@ -8,9 +8,7 @@
 <!-- Peaks Detection Section -->
 <section id="results-carousel" class="btm-mrgin-section">
     <h2>Peaks Detection</h2>
-    <p>The peaks detection analysis provides insights into the time series data for each subject. The heatmaps below
-        represent the detected peaks for each subject, showing the peaks detected in the data.
-    </p>
+    <p dir="rtl">הניתוח של זיהוי הפסגות מספק תובנות לגבי נתוני סדרות הזמן עבור כל נבדק. המפות החמות למטה מייצגות את הפסגות שזוהו עבור כל נבדק, ומראות את הפסגות שזוהו בנתונים.</p>
 
     <div class="hive-container">
         <!-- Create carousel for each subject -->
@@ -49,31 +47,33 @@
 <!-- Auto-Correlation Section -->
 <section id="auto-correlation" class="section btm-mrgin-section">
     <h2>Auto-Correlation Analysis Results</h2>
-    <p>The auto-correlation analysis provides insights into the relationships between different time series data for each subject. The plots below represent the auto-correlation for each variable.</p>
+    <p>הניתוח של אוטו-קורלציה מספק תובנות לגבי הקשרים בין נתוני סדרות הזמן השונות עבור כל נבדק. התרשימים למטה מייצגים את האוטו-קורלציה עבור כל משתנה.</p>
 
     <div class="hive-container">
         {% for subject, results in auto_corr_results.items() %}
         <div class="hive-cube">
             <h3>{{ subject }}</h3>
-            <div id="carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
+            <div id="carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                class="carousel slide">
                 <div class="carousel-inner">
                     {% for result in results %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
                         <div class="card">
-                            <img src="{{ url_for('static', filename='auto_corr_figures/' ~ result['auto_corr_plot']) }}" 
-                                    class="card-img-top" 
-                                    alt="Auto-correlation for {{ subject }}"
-                                    onclick="openModal('{{ url_for('static', filename='auto_corr_figures/' ~ result['auto_corr_plot']) }}')">
+                            <img src="{{ url_for('static', filename='auto_corr_figures/' ~ result['auto_corr_plot']) }}"
+                                class="card-img-top" alt="Auto-correlation for {{ subject }}"
+                                onclick="openModal('{{ url_for('static', filename='auto_corr_figures/' ~ result['auto_corr_plot']) }}')">
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                <a class="carousel-control-prev" href="#carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                <a class="carousel-control-prev"
+                    href="#carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
                     role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                <a class="carousel-control-next"
+                    href="#carousel-auto-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
                     role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
@@ -88,17 +88,15 @@
 <!-- Cross-Correlation Section -->
 <section id="cross-correlation-carousel" class="btm-mrgin-section">
     <h2>Cross-Correlation Analysis Results</h2>
-    <p>
-        The cross-correlation analysis provides insights into the relationships between different time series data for each subject. 
-        The heatmaps below represent the correlation matrices for each subject, showing how different variables are correlated with each other.
-    </p>
+    <p>הניתוח של קרוס-קורלציה מספק תובנות לגבי הקשרים בין נתוני סדרות הזמן השונות עבור כל נבדק. המפות החמות למטה מייצגות את מטריצות הקורלציה עבור כל נבדק, ומראות כיצד משתנים שונים מקושרים זה לזה.</p>
 
     <div class="hive-container">
         <!-- Create carousel for each subject -->
         {% for subject, data in cross_corr_results.items() %}
         <div class="hive-cube">
             <h3>{{ subject }}</h3>
-            <div id="carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
+            <div id="carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="card">
@@ -107,19 +105,15 @@
                                 onclick="openModal('{{ url_for('static', filename='cross_corr_figures/' ~ data['line_plot']) }}')">
                         </div>
                     </div>
-                    <div class="carousel-item">
-                        <div class="card">
-                            <p>Highest Correlation:</p>
-                            <p>{{ data['highest_corr']['column1'] }} and {{ data['highest_corr']['column2'] }}: {{ data['highest_corr']['correlation'] }}</p>
-                        </div>
-                    </div>
                 </div>
-                <a class="carousel-control-prev" href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                <a class="carousel-control-prev"
+                    href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
                     role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
+                <a class="carousel-control-next"
+                    href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
                     role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
@@ -131,15 +125,14 @@
 </section>
 <!-- Cross-Correlation Section -->
 
-
-
 <!-- ARIMA Model Section -->
 <section id="arima-carousel" class="btm-mrgin-section">
     <h2>ARIMA Analysis Results</h2>
-    <p>
-        Our ARIMA analysis provides insights into time series forecasting. Each subject is represented by a table
-        displaying the forecasted values and confidence intervals.
-    </p>
+    <div dir="rtl">
+        <p>הניתוח של ARIMA מספק תובנות לגבי חיזוי סדרות זמן. כל נבדק מיוצג על ידי טבלה המציגה את הערכים החזויים ואת רווחי הביטחון.</p>
+    </div>
+    
+
     <div class="hive-container">
         <!-- Create carousel for each subject -->
         {% for subject, arima_data_list in arima_results.items() %}

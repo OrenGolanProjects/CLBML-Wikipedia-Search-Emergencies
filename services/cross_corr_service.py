@@ -92,7 +92,7 @@ class CrossCorrelationService:
         result_file_paths = {}
 
         try:
-            # Split columns by subject
+            # Group columns by subject
             subjects = {}
             for col in df.columns:
                 if '_' in col:
@@ -108,9 +108,6 @@ class CrossCorrelationService:
                 # Extract columns for the subject
                 subject_df = df[columns]
                 
-                # Save the line plot to a file
-                filepath = f'cross_corr_{subject}.png'
-
                 # Handle NaN values by filling them with 0 or interpolating
                 subject_df = subject_df.fillna(0)  # or use subject_df.interpolate() for interpolation
 
@@ -126,24 +123,35 @@ class CrossCorrelationService:
                 # Find the highest cross-correlation
                 highest_corr = results_df.loc[results_df['correlation'].idxmax()]
 
-                # Plot the highest correlated pair
-                plt.figure(figsize=(12, 6))
-                plt.plot(subject_df.index, subject_df[highest_corr['column1']], label=highest_corr['column1'])
-                plt.plot(subject_df.index, subject_df[highest_corr['column2']], label=highest_corr['column2'])
-                plt.title(f"Highest Cross-correlation for {subject}: {highest_corr['column1']} and {highest_corr['column2']}")
-                plt.xlabel("Date")
-                plt.ylabel("Value")
-                plt.legend()
-                plt.xticks(rotation=45)
-                plt.tight_layout()
-                
+                # Plot all language variants for this subject
+                fig, (ax, text_ax) = plt.subplots(2, 1, figsize=(12, 8), gridspec_kw={'height_ratios': [6, 1]})
 
-                
+                for col in columns:
+                    ax.plot(subject_df.index, subject_df[col], label=col)
+
+                ax.set_title(f"Cross-Correlation Analysis for {subject}")
+                ax.set_xlabel("Date")
+                ax.set_ylabel("Value")
+                ax.legend()
+                plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
+
+                # Remove axes from the text subplot
+                text_ax.axis('off')
+
+                # Add correlation result text under the figure
+                result_text = (f"Highest Correlation:\n"
+                            f"{highest_corr['column1']} and {highest_corr['column2']}\n"
+                            f"Correlation: {highest_corr['correlation']:.2f}")
+                text_ax.text(0.5, 0.5, result_text, fontsize=14, fontweight='bold', ha='center', va='center', bbox=dict(facecolor='#ff4136', edgecolor='#ddd', alpha=0.8))
+                plt.tight_layout()
+
+                filepath = f'cross_corr_{subject}.png'
                 plt.savefig(os.path.join(self.figure_directory, filepath))
                 plt.close()
 
                 result_file_paths[subject] = {
                     'line_plot': filepath,
+                    'correlations': results_df.to_dict('records'),
                     'highest_corr': {
                         'column1': highest_corr['column1'],
                         'column2': highest_corr['column2'],
@@ -160,6 +168,7 @@ class CrossCorrelationService:
             self.logger.error(f"Failed to compute cross-correlation: {e}")
             self.logger.info(">> END:: perform_cross_corr")
             return result_file_paths
+
     def cross_correlation(self, x, y):
         # Remove NaN values
         x = x.dropna()

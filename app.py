@@ -136,17 +136,9 @@ def research():
 
     # Extract settings from form if available
     if request.method == 'POST':
-        threshold = request.form.get('threshold', type=int)
-        distance = request.form.get('distance', type=int)
-        prominence = request.form.get('prominence', type=int)
-        height = request.form.get('height', type=int)
-        width = request.form.get('width', type=int)
-    else:
-        threshold = 2
-        distance = 2
-        prominence = 100
-        height = 1
-        width = 1
+        peaks_toFind = request.form.get('peaks_toFind', type=int)
+        days_to_autocorrelate = request.form.get('days_to_autocorrelate', type=int)
+        arima_daysToForcast = request.form.get('days_to_forecast', type=int)
 
     # ========================================================
     # ================ PEAKS DETECTION =======================
@@ -155,32 +147,25 @@ def research():
     # Detect peaks, using existing figures if available
     peaks_results = peaks_service.detect_peaks(
         merged_df,
-        threshold=threshold,
-        distance=distance,
-        prominence=prominence,
-        height=height,
-        width=width
+        peaks_toFind=peaks_toFind
     )
 
-    # Read traffic data from CSV
-    merged_df = wiki_traffic_service.read_traffic_data_from_csv()
+
 
     # ========================================================
     # ================ AUTO-CORRELATION ======================
     # ========================================================
-    merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
-    auto_corr_results = auto_corr_service.perform_auto_corr(merged_df)
+    auto_corr_results = auto_corr_service.perform_auto_corr(merged_df,days_to_autocorrelate=days_to_autocorrelate)
 
     # ========================================================
     # ================ CROSS-CORRELATION =====================
     # ========================================================
-    merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
     cross_corr_results = cross_corr_service.perform_cross_corr(merged_df)
 
     # ========================================================
     # ================ ARIMA MODEL ===========================
     # ========================================================
-    arima_results = arima_service.load_arima_results(app=app)
+    arima_results = arima_service.load_arima_results(app=app,arima_daysToForcast=arima_daysToForcast)
 
     logger.info("=== arima model done.")
 

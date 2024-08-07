@@ -1,102 +1,40 @@
-name,date,traffic_value
-en_Manchester Arena bombing,2018-05-23,382.3333333333333
-en_Manchester Arena bombing,2018-10-19,230.66666666666666
-en_Manchester Arena bombing,2019-03-17,244.66666666666666
-en_Manchester Arena bombing,2019-05-23,179.66666666666666
-en_Manchester Arena bombing,2020-05-23,296.0
-en_Manchester Arena bombing,2020-08-21,194.33333333333334
-en_Manchester Arena bombing,2021-05-24,349.3333333333333
-en_Manchester Arena bombing,2021-06-19,194.0
-en_Manchester Arena bombing,2022-05-24,160.66666666666666
-en_Manchester Arena bombing,2023-05-24,339.0
-en_Manchester Arena bombing,2024-05-24,223.66666666666666
-ar_Manchester Arena bombing,2019-05-23,108.0
-ar_Manchester Arena bombing,2020-05-23,122.0
-ar_Manchester Arena bombing,2022-05-24,235.33333333333334
-en_Israel–Hamas war,2024-01-30,41557.666666666664
-en_Israel–Hamas war,2024-02-14,41623.666666666664
-en_Israel–Hamas war,2024-02-23,50365.666666666664
-en_Israel–Hamas war,2024-03-02,58448.666666666664
-en_Israel–Hamas war,2024-03-12,50067.333333333336
-en_Israel–Hamas war,2024-03-20,47815.666666666664
-en_Israel–Hamas war,2024-04-04,50433.666666666664
-en_Israel–Hamas war,2024-04-15,66969.0
-en_Israel–Hamas war,2024-04-26,48869.0
-en_Israel–Hamas war,2024-05-08,65200.0
-en_Israel–Hamas war,2024-05-30,69598.66666666667
-en_Israel–Hamas war,2024-06-10,37342.333333333336
-en_Israel–Hamas war,2024-07-10,21885.666666666668
-en_Israel–Hamas war,2024-07-25,26862.666666666668
-en_Israel–Hamas war,2024-08-02,46111.666666666664
-ar_Israel–Hamas war,2023-10-22,3266.6666666666665
-ar_Israel–Hamas war,2023-11-06,3694.6666666666665
-ar_Israel–Hamas war,2023-12-06,2280.6666666666665
-ar_Israel–Hamas war,2024-01-04,7827.666666666667
-ar_Israel–Hamas war,2024-02-18,4033.6666666666665
-ar_Israel–Hamas war,2024-03-03,5527.0
-ar_Israel–Hamas war,2024-03-20,6047.333333333333
-ar_Israel–Hamas war,2024-04-15,4248.333333333333
-ar_Israel–Hamas war,2024-05-08,4366.666666666667
-ar_Israel–Hamas war,2024-05-21,3692.3333333333335
-ar_Israel–Hamas war,2024-06-04,4207.333333333333
-ar_Israel–Hamas war,2024-06-15,3729.3333333333335
-ar_Israel–Hamas war,2024-06-29,3531.3333333333335
-ar_Israel–Hamas war,2024-07-19,7292.0
-ar_Israel–Hamas war,2024-08-02,3983.0
-he_Israel–Hamas war,2023-10-11,47716.666666666664
-he_Israel–Hamas war,2023-11-02,31202.0
-he_Israel–Hamas war,2023-11-20,17633.666666666668
-he_Israel–Hamas war,2023-12-09,14946.0
-he_Israel–Hamas war,2023-12-25,13272.666666666666
-he_Israel–Hamas war,2024-01-10,10835.666666666666
-he_Israel–Hamas war,2024-02-13,7229.0
-he_Israel–Hamas war,2024-03-04,5644.0
-he_Israel–Hamas war,2024-03-19,5175.0
-he_Israel–Hamas war,2024-04-15,7694.0
-he_Israel–Hamas war,2024-05-13,7333.0
-he_Israel–Hamas war,2024-06-09,6264.666666666667
-he_Israel–Hamas war,2024-07-14,4532.0
-he_Israel–Hamas war,2024-08-02,6721.666666666667
-en_Charlie Hebdo shooting,2015-11-16,156893.33333333334
-en_Charlie Hebdo shooting,2016-03-24,5324.333333333333
-en_Charlie Hebdo shooting,2016-07-17,6961.0
-en_Charlie Hebdo shooting,2017-01-07,3490.3333333333335
-en_Charlie Hebdo shooting,2017-12-22,4628.333333333333
-en_Charlie Hebdo shooting,2018-06-30,4955.666666666667
-en_Charlie Hebdo shooting,2019-01-09,5229.666666666667
-en_Charlie Hebdo shooting,2020-01-09,6027.666666666667
-en_Charlie Hebdo shooting,2020-10-30,21980.333333333332
-en_Charlie Hebdo shooting,2021-03-15,7353.0
-en_Charlie Hebdo shooting,2022-02-09,28135.0
-en_Charlie Hebdo shooting,2022-08-14,6787.666666666667
-en_Charlie Hebdo shooting,2023-02-09,5294.666666666667
-en_Charlie Hebdo shooting,2024-01-09,4599.333333333333
-en_Charlie Hebdo shooting,2024-07-30,13824.333333333334
-ar_Charlie Hebdo shooting,2015-11-16,1555.3333333333333
-ar_Charlie Hebdo shooting,2019-03-17,2437.6666666666665
-ar_Charlie Hebdo shooting,2020-09-03,1259.6666666666667
-ar_Charlie Hebdo shooting,2020-09-27,392.0
-ar_Charlie Hebdo shooting,2020-10-19,470.3333333333333
-ar_Charlie Hebdo shooting,2020-10-26,2046.0
-ar_Charlie Hebdo shooting,2021-10-06,165.66666666666666
-ar_Charlie Hebdo shooting,2022-03-29,351.0
-ar_Charlie Hebdo shooting,2023-02-09,787.0
-ar_Charlie Hebdo shooting,2023-09-17,171.33333333333334
-ar_Charlie Hebdo shooting,2023-11-16,734.0
-ar_Charlie Hebdo shooting,2023-12-17,449.6666666666667
-ar_Charlie Hebdo shooting,2024-07-29,453.0
-fr_Charlie Hebdo shooting,2015-11-15,43936.0
-fr_Charlie Hebdo shooting,2016-03-24,2332.0
-fr_Charlie Hebdo shooting,2016-09-04,7615.0
-fr_Charlie Hebdo shooting,2017-01-07,5095.666666666667
-fr_Charlie Hebdo shooting,2018-01-08,4400.333333333333
-fr_Charlie Hebdo shooting,2019-01-08,5909.666666666667
-fr_Charlie Hebdo shooting,2019-10-03,2509.3333333333335
-fr_Charlie Hebdo shooting,2020-01-08,14073.666666666666
-fr_Charlie Hebdo shooting,2020-09-03,9793.333333333334
-fr_Charlie Hebdo shooting,2021-01-07,3680.6666666666665
-fr_Charlie Hebdo shooting,2021-10-17,2553.6666666666665
-fr_Charlie Hebdo shooting,2022-01-09,4906.0
-fr_Charlie Hebdo shooting,2023-01-09,3511.0
-fr_Charlie Hebdo shooting,2023-10-17,2019.6666666666667
-fr_Charlie Hebdo shooting,2024-01-09,4921.666666666667
+event_name,language,date,traffic_value
+Manchester Arena bombing,en,2018-05-23,10.541945417109943
+Manchester Arena bombing,en,2020-05-23,7.752980842156667
+Manchester Arena bombing,en,2021-05-24,9.47589332089228
+Manchester Arena bombing,en,2023-05-24,9.142079028137257
+Manchester Arena bombing,en,2024-05-24,5.41628079287149
+Manchester Arena bombing,ar,2018-05-24,0.4198778694411103
+Manchester Arena bombing,ar,2019-05-23,0.6513187065605999
+Manchester Arena bombing,ar,2020-05-23,0.7581375544619028
+Manchester Arena bombing,ar,2021-05-24,0.5470431645617089
+Manchester Arena bombing,ar,2022-05-24,1.6228615612819741
+Israel–Hamas war,en,2024-03-02,1.5487801523244038
+Israel–Hamas war,en,2024-04-15,1.955045914810338
+Israel–Hamas war,en,2024-05-08,1.8706966169928485
+Israel–Hamas war,en,2024-05-30,2.0804334426946753
+Israel–Hamas war,en,2024-08-02,0.9605284354366878
+Israel–Hamas war,ar,2023-11-06,0.19398641347156576
+Israel–Hamas war,ar,2024-01-04,3.6950514870166686
+Israel–Hamas war,ar,2024-03-03,1.7461563230834238
+Israel–Hamas war,ar,2024-03-20,2.186930787137291
+Israel–Hamas war,ar,2024-07-19,3.2412881534262996
+Israel–Hamas war,he,2023-10-11,4.934289359312459
+Israel–Hamas war,he,2023-11-02,2.8133541983174406
+Israel–Hamas war,he,2023-12-09,0.7256389163175
+Israel–Hamas war,he,2024-05-13,-0.2520786305492292
+Charlie Hebdo shooting,en,2015-11-16,31.511823737823256
+Charlie Hebdo shooting,en,2016-07-17,1.05145810681621
+Charlie Hebdo shooting,en,2020-10-30,4.102797165551407
+Charlie Hebdo shooting,en,2022-02-09,5.353183875580407
+Charlie Hebdo shooting,en,2024-07-30,2.445818069960551
+Charlie Hebdo shooting,ar,2015-11-16,11.643355909008804
+Charlie Hebdo shooting,ar,2019-03-17,18.4774521107203
+Charlie Hebdo shooting,ar,2020-10-26,15.443805326809834
+Charlie Hebdo shooting,ar,2023-02-09,5.692244558444014
+Charlie Hebdo shooting,ar,2024-07-29,3.1052538542071733
+Charlie Hebdo shooting,fr,2015-11-15,25.40574438316521
+Charlie Hebdo shooting,fr,2016-10-05,2.687677629677309
+Charlie Hebdo shooting,fr,2019-01-08,2.9518205983154315
+Charlie Hebdo shooting,fr,2020-01-08,7.772528189883912
+Charlie Hebdo shooting,fr,2022-01-09,2.3591719555662607

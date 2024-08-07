@@ -134,28 +134,18 @@ def research():
     merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
     logger.info("=== created merged_df.")
 
-    # Extract settings from form if available
-    if request.method == 'POST':
-        peaks_toFind = request.form.get('peaks_toFind', type=int)
-        days_to_autocorrelate = request.form.get('days_to_autocorrelate', type=int)
-        arima_daysToForcast = request.form.get('days_to_forecast', type=int)
-
     # ========================================================
     # ================ PEAKS DETECTION =======================
     # ========================================================
 
     # Detect peaks, using existing figures if available
-    peaks_results = peaks_service.detect_peaks(
-        merged_df,
-        peaks_toFind=peaks_toFind
-    )
-
+    peaks_results = peaks_service.detect_peaks(merged_df,peaks_toFind=5)
 
 
     # ========================================================
     # ================ AUTO-CORRELATION ======================
     # ========================================================
-    auto_corr_results = auto_corr_service.perform_auto_corr(merged_df,days_to_autocorrelate=days_to_autocorrelate)
+    auto_corr_results = auto_corr_service.perform_auto_corr(merged_df,days_to_autocorrelate=30)
 
     # ========================================================
     # ================ CROSS-CORRELATION =====================
@@ -165,7 +155,7 @@ def research():
     # ========================================================
     # ================ ARIMA MODEL ===========================
     # ========================================================
-    arima_results = arima_service.load_arima_results(app=app,arima_daysToForcast=arima_daysToForcast)
+    arima_results = arima_service.load_arima_results(app=app,arima_daysToForcast=7)
 
     logger.info("=== arima model done.")
 

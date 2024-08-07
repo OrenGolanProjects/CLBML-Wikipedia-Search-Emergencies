@@ -19,26 +19,13 @@ class PeaksService:
         self.csv_file_path = './files/peaks_results.csv'  # for csv data
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(level=logging.INFO)
-
     def peaks_check_directory_existence(self):
-        """
-        Ensure the figure directory exists.
-        """
         self.logger.info(">> START:: peaks_check_directory_existence")
         os.makedirs(self.figure_directory, exist_ok=True)
         self.logger.info(f"Ensured directory exists: {self.figure_directory}")
         self.logger.info(">> END:: peaks_check_directory_existence")
 
     def load_peaks_figures(self, app):
-        """
-        Load and return the peaks figures.
-
-        Parameters:
-        app (Flask): The Flask application instance.
-
-        Returns:
-        set: A set of existing peaks figures filenames.
-        """
         self.logger.info(">> START:: load_peaks_figures")
         peaks_figures_dir = os.path.join(app.static_folder, 'peaks_figures')
         peaks_existing_figures = set(os.listdir(peaks_figures_dir)) if os.path.exists(peaks_figures_dir) else set()
@@ -47,123 +34,101 @@ class PeaksService:
         return peaks_existing_figures
 
     def detect_peaks(self, df, peaks_toFind=10):
-        """
-        Detect peaks in the dataframe and save figures.
-
-        Parameters:
-        df (pd.DataFrame): DataFrame containing the data.
-        threshold (float, optional): Required threshold of peaks.
-        distance (int, optional): Required minimal horizontal distance in samples between neighbouring peaks.
-        prominence (float, optional): Required prominence of peaks.
-        height (float, optional): Required height of peaks.
-        width (float, optional): Required width of peaks.
-
-        Returns:
-        dict: Dictionary containing peaks information.
-        """
         self.logger.info(">> START:: detect_peaks")
         peaks_dict = {}
 
         if 'date' in df.columns:
             df['date'] = pd.to_datetime(df['date'])
+            df.set_index('date', inplace=True)
 
         for column in df.columns:
-            if column not in ['date', 'timestamp']:
-                peak_filename = f'{column}_peaks.png'
-                data = df[['date', column]].dropna()
+            if column != 'date':
+                event_name, language = self.parse_column_name(column)
+                peak_filename = f'{event_name}_{language}_peaks.png'
+                data = df[column].dropna()
 
                 if data.empty:
                     continue
 
-                data.set_index('date', inplace=True)
-                data[column] = data[column].rolling(window=3, min_periods=1).mean()
+                data = data.rolling(window=3, min_periods=1).mean()
+                normalized_data = self.oneP(data)
 
-                peaks_info = self.peaks_optimize(data[column], 2, 2, 100, 1, 1, peak_filename)
+                peaks_info = self.peaks_optimize(normalized_data, event_name, language, peak_filename, peaks_toFind)
                 if peaks_info:
                     peaks_dict[column] = peaks_info
 
-        # Group images by subject
-        subjects = {}
+        # Group images by event
+        events = {}
         for key, data in peaks_dict.items():
-            parts = key.split('_', 1)
-            if len(parts) > 1:
-                subject = parts[1]
-                if subject not in subjects:
-                    subjects[subject] = []
-                subjects[subject].append(data)
+            event_name, _ = self.parse_column_name(key)
+            if event_name not in events:
+                events[event_name] = []
+            events[event_name].append(data)
 
         # Write peaks to CSV
         self.write_peaks_to_csv(peaks_dict)
 
         self.logger.info(">> END:: detect_peaks")
-        return subjects
+        return events
 
-    def peaks_optimize(self, data_column, threshold, distance, prominence, height, width, peak_filename):
-        """
-        Optimize peak detection by adjusting the distance and prominence parameters if the number of peaks exceeds 15.
+    def parse_column_name(self, column_name):
+        parts = column_name.split('_', 1)
+        return parts[1], parts[0] if len(parts) > 1 else (column_name, 'unknown')
 
-        Parameters:
-        data_column (pd.Series): The data column to detect peaks in.
-        threshold (float, optional): Required threshold of peaks.
-        distance (int, optional): Required minimal horizontal distance in samples between neighbouring peaks.
-        prominence (float, optional): Required prominence of peaks.
-        height (float, optional): Required height of peaks.
-        width (float, optional): Required width of peaks.
-        peak_filename (str): The filename to save the peak figure.
+    # Modified oneP method
+    def oneP(self, data):
+        return (data - data.mean()) / data.std()  # Changed to z-score normalization
 
-        Returns:
-        dict: Dictionary containing peaks information.
-        """
-        peaks, properties = find_peaks(
-            data_column,
-            threshold=threshold,
-            distance=distance,
-            prominence=prominence,
-            height=height,
-            width=width
-        )
+    def peaks_optimize(self, data_column, event_name, language, peak_filename, peaks_toFind=10):
+        self.logger.info(f">> START:: peaks_optimize for {event_name} ({language})")
+        
+        initial_distance = max(len(data_column) // 20, 1)  # Start with 5% of data length, minimum 1
+        initial_prominence = 0.5  # Increased initial prominence
+        
+        self.logger.info(f"Initial parameters: distance={initial_distance}, prominence={initial_prominence}")
 
-        # If there are more than 15 peaks, increment the distance and prominence and run find_peaks again
-        if len(peaks) > 15:
-            initial_distance = distance if distance is not None else 1
-            initial_prominence = prominence if prominence is not None else 0
-            while len(peaks) > 15:
-                initial_distance += 1
-                initial_prominence += 20
-                peaks, properties = find_peaks(
-                    data_column,
-                    threshold=threshold,
-                    distance=initial_distance,
-                    prominence=initial_prominence,
-                    height=height,
-                    width=width
-                )
+        while True:
+            peaks, properties = find_peaks(
+                data_column,
+                distance=initial_distance,
+                prominence=initial_prominence,
+            )
+            
+            self.logger.info(f"Number of peaks found: {len(peaks)}")
+            
+            if len(peaks) <= peaks_toFind:  # Added upper limit for prominence
+                break
+            
+            initial_distance = int(initial_distance * 1.01)
+            initial_prominence *= 1.02  # Increased prominence adjustment factor
+            
+            self.logger.info(f"Adjusted parameters: distance={initial_distance}, prominence={initial_prominence}")
 
+        self.logger.info(f"Final number of peaks: {len(peaks)}")
         # Save the figure if peaks are detected
         if len(peaks) > 0:
             plt.figure(figsize=(20, 6))
-            plt.plot(data_column.index, data_column, label=peak_filename)
-            plt.plot(data_column.index[peaks], data_column.iloc[peaks], 'o')
+            plt.plot(data_column.index, data_column, label=f'{event_name} ({language})', linewidth=0.2)  # Set linewidth to 0.2
+            plt.plot(data_column.index[peaks], data_column.iloc[peaks], 'o', markersize=4)  # Optionally, adjust marker size
 
-            # Annotate the peaks with their dates, alternating positions to avoid overlap
             for i, peak in enumerate(peaks):
-                offset = 10 if i % 2 == 0 else -10  # Increased the offset values
+                offset = 10 if i % 2 == 0 else -10
                 plt.annotate(data_column.index[peak].strftime('%Y-%m-%d'),
                             (data_column.index[peak], data_column.iloc[peak]),
                             textcoords="offset points",
                             xytext=(0, offset),
                             ha='center',
-                            fontsize=10,  # Customize the font size here
-                            color='green',  # Customize the color here
+                            fontsize=10,
+                            color='green',
                             fontweight='bold')
 
-            plt.title(f'Peaks in {peak_filename}')
+            plt.title(f'Peaks in {event_name} ({language})')
             plt.legend()
             plt.savefig(os.path.join(self.figure_directory, peak_filename))
             plt.close()
 
         else:
-            self.logger.warning("No peaks detected.")
+            self.logger.warning(f"No peaks detected for {event_name} ({language}).")
 
         avg_distance = None
         if len(peaks) > 1:
@@ -175,27 +140,24 @@ class PeaksService:
             'values': data_column.iloc[peaks].tolist(),
             'filename': peak_filename,
             'avg_distance': avg_distance,
-            'avg_prominence': properties['prominences'].mean() if 'prominences' in properties else None
+            'avg_prominence': properties['prominences'].mean() if 'prominences' in properties else None,
+            'language': language,
+            'event_name': event_name
         }
 
     def write_peaks_to_csv(self, peaks_dict):
-        """
-        Write the peaks information to a CSV file.
-
-        Parameters:
-        peaks_dict (dict): Dictionary containing peaks information.
-        """
         self.logger.info(">> START:: write_peaks_to_csv")
         rows = []
         for column, peaks_info in peaks_dict.items():
             for i, date in enumerate(peaks_info['dates']):
                 rows.append({
-                    'name': column,
+                    'event_name': peaks_info['event_name'],
+                    'language': peaks_info['language'],
                     'date': date,
                     'traffic_value': peaks_info['values'][i]
                 })
 
         df = pd.DataFrame(rows)
-        df.to_csv(self.csv_file_path, index=False, mode='w')  # 'w' mode to overwrite the file if it exists
+        df.to_csv(self.csv_file_path, index=False, mode='w')
         self.logger.info(f"Peaks results written to CSV file: {self.csv_file_path}")
         self.logger.info(">> END:: write_peaks_to_csv")

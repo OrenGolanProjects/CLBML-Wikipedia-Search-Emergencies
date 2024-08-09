@@ -20,8 +20,6 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 class TestCrossCorrelationService(unittest.TestCase):
 
-    @patch('services.cross_corr_service.CrossCorrelationService.cross_corr_check_directory_existence')
-    @patch('services.cross_corr_service.CrossCorrelationService.reset_directory')
     def test_cross_corr_service_sequence(self, mock_reset_directory, mock_check_directory):
         # Arrange
 
@@ -44,21 +42,9 @@ class TestCrossCorrelationService(unittest.TestCase):
             logging.info("Get all traffic data as a DataFrame.")
             wiki_traffic_df = wiki_traffic_service.get_traffic_data_as_dataframe()
 
-            logging.info("Reset the figure directory by deleting its contents.")
-            cross_corr_service.reset_directory()
-
-            logging.info("Checking directory existence.")
-            cross_corr_service.cross_corr_check_directory_existence()
-
             logging.info("Performing cross correlation.")
             cross_corr_service.perform_cross_corr(wiki_traffic_df)
 
-            # Assert
-            logging.info("Asserting reset_directory was called once.")
-            mock_reset_directory.assert_called_once()
-
-            logging.info("Asserting cross_corr_check_directory_existence was called once.")
-            mock_check_directory.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main(exit=False)

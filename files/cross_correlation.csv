@@ -1,0 +1,8 @@
+,subject,Page 1,Page 2,lag,correlation
+0,Manchester Arena bombing,en_Manchester Arena bombing,ar_Manchester Arena bombing,0,0.4522
+1,Israel–Hamas war,en_Israel–Hamas war,ar_Israel–Hamas war,-275,0.4310
+2,Israel–Hamas war,en_Israel–Hamas war,he_Israel–Hamas war,-302,-0.6435
+3,Israel–Hamas war,ar_Israel–Hamas war,he_Israel–Hamas war,-230,0.5716
+4,Charlie Hebdo shooting,en_Charlie Hebdo shooting,ar_Charlie Hebdo shooting,-1217,0.4997
+5,Charlie Hebdo shooting,en_Charlie Hebdo shooting,fr_Charlie Hebdo shooting,0,0.7955
+6,Charlie Hebdo shooting,ar_Charlie Hebdo shooting,fr_Charlie Hebdo shooting,-2110,0.3988

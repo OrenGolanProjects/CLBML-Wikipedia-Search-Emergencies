@@ -5,6 +5,7 @@
 {% block content %}
 <h1>Research Results</h1>
 
+<!-- ======================================================================================================================================= -->
 <!-- Peaks Detection Section -->
 <section id="results-carousel" class="btm-mrgin-section">
     <h2>Peaks Detection Analysis Results</h2>
@@ -16,6 +17,7 @@
         <p> כל תמונה מציגה את הpeaks בגרף הזמן המתאים, עם הדגשה על המקומות שבהם נרשמו peaks.</p>
     </div>
 
+
     <div class="hive-container">
         <!-- Create carousel for each subject -->
         {% for subject, images in peaks_results.items() %}
@@ -26,12 +28,13 @@
                     {% for image in images %}
                     <div class="carousel-item {% if loop.first %}active{% endif %}">
                         <div class="card">
-                            <img src="{{ url_for('static', filename='peaks_figures/' ~ image["filename"]) }}"
+                            <img src="{{ url_for('static', filename='peaks_figures/' ~ image.filename) }}"
                                 class="card-img-top" alt="{{ subject }}"
                                 onclick="openModal('{{ url_for('static', filename='peaks_figures/' ~ image.filename) }}')">
                             <div class="card-body">
-                                <p class="card-text">הדמיה זו מייצגת את ה-peaks שזוהו בנתוני סדרת הזמן עבור {{ subject
-                                    }}. peaks מציינות נקודות שיא בגרף, שמאפשרות לנו לנתח את התנהגות הנתונים.</p>
+                                <p class="card-text">This image represents the peaks detected in the time series data
+                                    for {{ subject }}. Peaks indicate points of maximum in the graph, which allow us to
+                                    analyze the behavior of the data.</p>
                             </div>
                         </div>
                     </div>
@@ -53,7 +56,9 @@
     </div>
 </section>
 <!-- Peaks Detection Section -->
+<!-- ======================================================================================================================================= -->
 
+<!-- ======================================================================================================================================= -->
 <!-- Auto-Correlation Section -->
 <section id="auto-correlation" class="section btm-mrgin-section">
     <h2>Auto-Correlation Analysis Results</h2>
@@ -99,20 +104,19 @@
     </div>
 </section>
 <!-- Auto-Correlation Section -->
+<!-- ======================================================================================================================================= -->
 
+<!-- ======================================================================================================================================= -->
 <!-- Cross-Correlation Section -->
 <section id="cross-correlation-carousel" class="btm-mrgin-section">
     <h2>Cross-Correlation Analysis Results</h2>
     <div class="right_to_left">
-        <p>מתאם צולב הוא שיטה סטטיסטית המשמשת למדידת הדמיון בין שתי סדרות זמן כפונקציה של ההסטה של אחת ביחס לשנייה.
+        <p>Cross-Correlation הוא שיטה סטטיסטית המשמשת למדידת הדמיון בין שתי סדרות זמן כפונקציה של ההסטה של אחת ביחס
+            לשנייה.
             בהקשר של הניתוח שלנו, זה עוזר לנו להבין כיצד מגמות שפה שונות הקשורות לנושאים ספציפיים מתואמות לאורך זמן.</p>
 
-        <h4>היבטים מרכזיים של ניתוח המתאם הצולב שלנו:</h4>
+        <h4>היבטים מרכזיים של ניתוח ה-Cross-Correlation שלנו:</h4>
         <ul>
-            <li><strong>נרמול:</strong> נתונים משפות שונות מנורמלים כדי להבטיח השוואה, תוך התמקדות בדפוסים ולא בגודלים
-                מוחלטים.</li>
-            <li><strong>השהיית זמן:</strong> אנו שוקלים הסטות זמן שונות בין הסדרות כדי לזהות יחסי הובלה-פיגור
-                פוטנציאליים באימוץ מגמות בין שפות.</li>
             <li><strong>מקדם מתאם:</strong> הערכים נעים בין -1 ל-1, כאשר:
                 <ul>
                     <li>1 מציין מתאם חיובי מושלם</li>
@@ -120,7 +124,7 @@
                     <li>0 מציין שאין מתאם</li>
                 </ul>
             </li>
-            <li><strong>המתאם הגבוה ביותר:</strong> אנו מדווחים על המתאם המקסימלי והשהיית הזמן המתאימה לו, המציינים את
+            <li><strong>המתאם הגבוה ביותר:</strong> אנו מדווחים על המתאם המקסימלי וה-Lag המתאימה לו, המציינים את
                 הקשר החזק ביותר שנמצא בין זוגות שפות עבור כל נושא.</li>
         </ul>
 
@@ -128,7 +132,7 @@
         <ul>
             <li>מתאם חיובי גבוה מציע שמגמות בשפות שונות נעות באופן דומה.</li>
             <li>מתאם שלילי גבוה מציין תנועות הפוכות במגמות.</li>
-            <li>ערך ההשהיה מראה כמה יחידות זמן סדרה אחת מובילה או מפגרת אחרי השנייה.</li>
+            <li>ערך ה-Lag מראה כמה יחידות זמן סדרה אחת מובילה או מפגרת אחרי השנייה.</li>
         </ul>
 
         <p>ניתוח זה עוזר לזהות כיצד מגמות בקהילות שפה שונות קשורות זו לזו, וייתכן שיחשוף יחסי הובלה-פיגור בהפצת מידע או
@@ -136,133 +140,110 @@
     </div>
 
     <div class="hive-container">
-        <!-- Create carousel for each subject -->
-        {% for subject, data in cross_corr_results.items() %}
+        {% if cross_corr_results.empty %}
+        <p class="red-bold">No cross-correlation results available.</p>
+        {% else %}
+        <!-- Display cross-correlation results in a table -->
+        {% for subject, data in cross_corr_results.groupby('subject') %}
         <div class="hive-cube">
             <h3>{{ subject }}</h3>
-            <div id="carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
-                class="carousel slide">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="card">
-                            <img src="{{ url_for('static', filename='cross_corr_figures/' ~ data['line_plot']) }}"
-                                class="card-img-top" alt="{{ subject }}"
-                                onclick="openModal('{{ url_for('static', filename='cross_corr_figures/' ~ data['line_plot']) }}')">
-                        </div>
-                    </div>
-                </div>
-                <a class="carousel-control-prev"
-                    href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
-                    role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next"
-                    href="#carousel-cross-correlation-{{ subject | replace(' ', '-') | replace('–', '-') }}"
-                    role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Page 1</th>
+                        <th>Page 2</th>
+                        <th>Lag</th>
+                        <th>Correlation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in data.iterrows() %}
+                    <tr>
+                        <td>{{ row['Page 1'] }}</td>
+                        <td>{{ row['Page 2'] }}</td>
+                        <td>{{ row['lag'] }}</td>
+                        <td>{{ row['correlation'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
         {% endfor %}
+        {% endif %}
     </div>
+
 </section>
 <!-- Cross-Correlation Section -->
+<!-- ======================================================================================================================================= -->
 
+
+<!-- ======================================================================================================================================= -->
 <!-- ARIMA Model Section -->
 <section id="arima-carousel" class="btm-mrgin-section">
     <h2>ARIMA Model Analysis Results</h2>
     <div class="right_to_left">
-        <p>הניתוח של ARIMA מספק תובנות לגבי חיזוי סדרות זמן.</p>
-        <p>כל נבדק מיוצג על ידי טבלה המציגה את הערכים החזויים ואת רווחי הביטחון.</p>
-        <p>פרטי המודל:</p>
+        <p>The ARIMA model analysis provides insights into time series forecasting.</p>
+        <p>Each subject is represented by a table displaying the forecasted values and confidence intervals.</p>
+        <p>Model details:</p>
         <ul>
-            <li>סדר המודל: ערכי (p,d,q), כאשר:
+            <li>Model order: (p,d,q) values, where:
                 <ul>
-                    <li>p: סדר האוטורגרסיבי</li>
-                    <li>d: דרגת ההבדלה</li>
-                    <li>q: סדר הממוצע הנע</li>
+                    <li>p: autoregressive order</li>
+                    <li>d: degree of differencing</li>
+                    <li>q: moving average order</li>
                 </ul>
             </li>
-            <li>אומדני מקדמים: ערכים עבור המונחים AR ו-MA, יחד עם שגיאות התקן שלהם.</li>
-            <li>משמעות סטטיסטית: ערכי P או t-סטטיסטיקות עבור כל מקדם, המציינים את משמעותם.</li>
-            <li>קריטריוני מידע: AIC ו-BIC להשוואת מודלים.</li>
-            <li>לוג-סבירות: מדד להתאמת המודל.</li>
-            <li>סטטיסטיקות שאריות: כולל שגיאת התקן של הרגרסיה.</li>
-            <li>אבחון שאריות: בדיקות לנורמליות ואוטוקורלציה של השאריות.</li>
-            <li>מדדי דיוק תחזית: כגון שגיאה ממוצעת מוחלטת (MAE) או שורש ממוצע ריבועי של השגיאה (RMSE) אם בוצעה תחזית.
-            </li>
-            <li>סיכום המודל: סטטיסטיקות התאמה כלליות וכוח הסבר של המודל.</li>
+            <li>Coefficient estimates: values for the AR and MA terms, along with their standard errors.</li>
+            <li>Statistical significance: P or t-statistics for each coefficient, indicating their significance.</li>
+            <li>Information criteria: AIC and BIC for model comparison.</li>
+            <li>Log-likelihood: a measure of model fit.</li>
+            <li>Residual statistics: including the regression standard error.</li>
+            <li>Residual diagnostics: tests for normality and autocorrelation of the residuals.</li>
+            <li>Forecast accuracy metrics: such as Mean Absolute Error (MAE) or Root Mean Squared Error (RMSE) if a
+                forecast was made.</li>
+            <li>Model summary: overall fit statistics and explanatory power of the model.</li>
         </ul>
     </div>
 
 
     <div class="hive-container">
-        <!-- Create carousel for each subject -->
         {% for subject, arima_data_list in arima_results.items() %}
         <div class="hive-cube">
             <h3>{{ subject }}</h3>
-            <div id="carousel-arima-{{ subject | replace(' ', '-') | replace('–', '-') }}" class="carousel slide">
-                <div class="carousel-inner">
-
-                    {% for arima_data in arima_data_list %}
-                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <div class="card">
-                            <img src="{{ url_for('static', filename='arima_figures/' ~ arima_data['filename']) }}"
-                                class="card-img-top" alt="{{ subject }}"
-                                onclick="openModal('{{ url_for('static', filename='arima_figures/' ~ arima_data['filename']) }}')">
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Forecast Table</h5>
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Mean</th>
-                                                <th>CI Lower</th>
-                                                <th>CI Upper</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for date, forecast in arima_data['forecast'].iterrows() %}
-                                            <tr>
-                                                <td>{{ date }}</td>
-                                                <td>{{ forecast['Mean'] | round(2) }}</td>
-                                                <td>{{ forecast['Mean_CI_Lower'] | round(2) }}</td>
-                                                <td>{{ forecast['Mean_CI_Upper'] | round(2) }}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                </div>
-                <a class="carousel-control-prev"
-                    href="#carousel-arima-{{ subject | replace(' ', '-') | replace('–', '-') }}" role="button"
-                    data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next"
-                    href="#carousel-arima-{{ subject | replace(' ', '-') | replace('–', '-') }}" role="button"
-                    data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+            {% for arima_data in arima_data_list %}
+            <div class="container">
+                <img src="{{ 'static/arima_figures/' ~ arima_data['filename'] }}" alt="{{ arima_data['filename'] }}"
+                    class="card-img-top" onclick="openModal('{{ 'static/arima_figures/' ~ arima_data['filename'] }}')">
             </div>
+            <div class="container btm-mrgin-section">
+                <div class="scrollable-table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Forecast</th>
+                                <th>Actual</th>
+                                <th>MAE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for forecast in arima_data['forecast'] %}
+                            <tr>
+                                <td>{{ forecast['Date'] }}</td>
+                                <td>{{ forecast['Forecast'] }}</td>
+                                <td>{{ forecast['Actual'] }}</td>
+                                <td>{{ forecast['MAE'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
         </div>
         {% endfor %}
+
     </div>
 </section>
 <!-- ARIMA Model Section -->
-
 {% endblock %}

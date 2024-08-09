@@ -504,3 +504,12 @@ button:hover {
 .table-sm td {
     padding: 0.3rem;
 }
+.table-responsive {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.red-bold {
+    color: red;
+    font-weight: bold;
+}

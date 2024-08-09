@@ -43,6 +43,6 @@ def perform_updates(app):
         load_default_wikipedia_pages()
         load_wiki_traffic()
         reset_paeks(app)
-        load_default_arima(app)
         load_default_auto_correlation(app)
+        load_default_arima(app)
         update_log()

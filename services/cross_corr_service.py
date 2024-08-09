@@ -44,38 +44,9 @@ class CrossCorrelationService:
         """
         Initialize the CrossCorrelationService with directories for figures and CSV files.
         """
-        self.figure_directory = 'static/cross_corr_figures'
+        self.csv_file_path = './files/cross_correlation.csv'
+
         self.logger = logger
-
-
-    def reset_directory(self):
-        """
-        Reset the figure directory by deleting its contents.
-        """
-        self.logger.info(">> START:: reset_directory")
-        self.logger.info(f"Resetting directory: {self.figure_directory}")
-        if os.path.exists(self.figure_directory):
-            for filename in os.listdir(self.figure_directory):
-                file_path = os.path.join(self.figure_directory, filename)
-                try:
-                    if os.path.isfile(file_path) or os.path.islink(file_path):
-                        os.unlink(file_path)
-                    elif os.path.isdir(file_path):
-                        shutil.rmtree(file_path)
-                except Exception as e:
-                    self.logger.error(f"Failed to delete {file_path}. Reason: {e}")
-        self.logger.info(f"Directory reset: {self.figure_directory}")
-        self.logger.info(">> END:: reset_directory")
-
-
-    def cross_corr_check_directory_existence(self):
-        """
-        Ensure the cross-correlation directory exists.
-        """
-        self.logger.info(">> START:: cross_corr_check_directory_existence")
-        os.makedirs(self.figure_directory, exist_ok=True)
-        self.logger.info(f"Ensured directory exists: {self.figure_directory}")
-        self.logger.info(">> END:: cross_corr_check_directory_existence")
 
     def perform_cross_corr(self, df):
         self.logger.info(">> START:: perform_cross_corr")
@@ -83,13 +54,11 @@ class CrossCorrelationService:
         if df.empty:
             self.logger.error("DataFrame is empty. No cross-correlation to compute.")
             self.logger.info(">> END:: perform_cross_corr")
-            return {}
+            return pd.DataFrame()
 
         # Ensure 'date' column is set as index
         if 'date' in df.columns:
             df.set_index('date', inplace=True)
-
-        result_file_paths = {}
 
         try:
             # Group columns by subject
@@ -102,6 +71,8 @@ class CrossCorrelationService:
                     subjects[subject].append(col)
                 else:
                     self.logger.warning(f"Column name '{col}' does not contain an underscore and will be skipped.")
+
+            all_results = []
 
             # Compute cross-correlation for each group of subjects
             for subject, columns in subjects.items():
@@ -117,76 +88,20 @@ class CrossCorrelationService:
                 for i, col1 in enumerate(columns):
                     for col2 in columns[i+1:]:
                         lag, corr = self.cross_correlation(subject_df[col1], subject_df[col2])
-                        results.append({'column1': col1, 'column2': col2, 'lag': lag, 'correlation': corr})
+                        results.append({'subject': subject, 'Page 1': col1, 'Page 2': col2, 'lag': lag, 'correlation': f"{corr:.4f}"})
                 
-                results_df = pd.DataFrame(results)
+                all_results.extend(results)
 
-                # Find the highest cross-correlation
-                highest_corr = results_df.loc[results_df['correlation'].abs().idxmax()]
-
-                # Plot all language variants for this subject
-                fig, (ax, text_ax) = plt.subplots(2, 1, figsize=(12, 8), gridspec_kw={'height_ratios': [6, 1]})
-
-                for col in columns:
-                    ax.plot(subject_df.index, subject_df[col], label=col)
-
-                ax.set_title(f"Cross-Correlation Analysis for {subject}")
-                ax.set_xlabel("Date")
-                ax.set_ylabel("Normalized Value")
-                ax.set_yscale('symlog')  # Use symlog scale for better visibility
-                ax.grid(True, which="both", ls="-", alpha=0.2)
-                ax.legend()
-                plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
-
-                # Remove axes from the text subplot
-                text_ax.axis('off')
-
-                # Add correlation result text under the figure
-                result_text = (f"Highest Correlation:\n"
-                            f"{highest_corr['column1']} and {highest_corr['column2']}\n"
-                            f"Correlation: {highest_corr['correlation']:.2f}\n"
-                            f"Lag: {highest_corr['lag']}")
-                text_ax.text(0.5, 0.5, result_text, fontsize=14, fontweight='bold', ha='center', va='center', bbox=dict(facecolor='#ff4136', edgecolor='#ddd', alpha=0.8))
-                plt.tight_layout()
-
-                filepath = f'cross_corr_{subject}.png'
-                plt.savefig(os.path.join(self.figure_directory, filepath))
-                plt.close()
-
-                result_file_paths[subject] = {
-                    'line_plot': filepath,
-                    'correlations': results_df.to_dict('records'),
-                    'highest_corr': {
-                        'column1': highest_corr['column1'],
-                        'column2': highest_corr['column2'],
-                        'correlation': highest_corr['correlation'],
-                        'lag': highest_corr['lag']
-                    }
-                }
-
-                self.logger.info(f"Cross-correlation analysis for {subject} completed. Line plot saved to {os.path.join(self.figure_directory, filepath)}")
+            results_df = pd.DataFrame(all_results)
 
             self.logger.info(">> END:: perform_cross_corr")
-            return result_file_paths
+            self.save_dataframe_to_csv(results_df, self.csv_file_path)
+            return results_df
 
         except Exception as e:
             self.logger.error(f"Failed to compute cross-correlation: {e}")
             self.logger.info(">> END:: perform_cross_corr")
-            return result_file_paths
-
-    # def cross_correlation(self, x, y):
-    #     # Remove NaN values
-    #     x = x.dropna()
-    #     y = y.dropna()
-
-    #     # Ensure both series have the same length
-    #     min_length = min(len(x), len(y))
-    #     x = x[:min_length]
-    #     y = y[:min_length]
-
-    #     # Calculate cross-correlation
-    #     corr = signal.correlate(x, y, mode='full', method='direct')
-    #     return np.max(corr) / (np.std(x) * np.std(y) * len(x))
+            return pd.DataFrame()
 
     def moving_average(self, series, window_size):
         """
@@ -228,3 +143,37 @@ class CrossCorrelationService:
         lag = max_corr_index - max_lag
         
         return lag, max_corr
+
+    def run_cross_correlation(self, df):
+        """
+        Check if figures exist, if not, perform cross-correlation and write results to a CSV file.
+        
+        :param df: DataFrame to be used for cross-correlation.
+        :return: Dictionary of figures or result of perform_cross_corr.
+        """
+        self.logger.info(">> START:: check_and_perform_cross_corr")
+
+        # Check if csv file exists
+        if os.path.exists(self.csv_file_path):
+            self.logger.info(f"CSV file already exists: {self.csv_file_path}")
+            self.logger.info(">> END:: check_and_perform_cross_corr")
+            return pd.read_csv(self.csv_file_path, index_col=0)
+
+        self.logger.info(">> END:: check_and_perform_cross_corr")      
+        return self.perform_cross_corr(df)
+
+    def save_dataframe_to_csv(self, df, file_path):
+        """
+        Save the given DataFrame to a CSV file.
+
+        :param df: DataFrame to be saved.
+        :param file_path: Path to the CSV file.
+        """
+        self.logger.info(">> START:: save_dataframe_to_csv")
+        try:
+            df.to_csv(file_path, index=True, mode='w')
+            self.logger.info(f"DataFrame successfully saved to {file_path}")
+        except Exception as e:
+            self.logger.error(f"Failed to save DataFrame to {file_path}. Reason: {e}")
+        self.logger.info(">> END:: save_dataframe_to_csv")
+

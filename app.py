@@ -63,7 +63,10 @@ except Exception as e:
     logger.error(f"Failed to initialize the database: {e}")
     raise
 
-# Check for updates and perform if necessary
+# ========================================================
+# ================ UPDATE CHECK ==========================
+# ========================================================
+
 try:
     if not has_updated_today():
         perform_updates(app)
@@ -126,7 +129,6 @@ def research():
 
     # Check if directories exist
     peaks_service.peaks_check_directory_existence()
-    cross_corr_service.cross_corr_check_directory_existence()
     arima_service.arima_check_directory_existence()
     auto_corr_service.auto_corr_check_directory_existence()
 
@@ -139,23 +141,27 @@ def research():
     # ========================================================
 
     # Detect peaks, using existing figures if available
-    peaks_results = peaks_service.detect_peaks(merged_df,peaks_toFind=5)
+    peaks_results = peaks_service.run_peak_detection(merged_df)
 
 
     # ========================================================
     # ================ AUTO-CORRELATION ======================
     # ========================================================
-    auto_corr_results = auto_corr_service.perform_auto_corr(merged_df,days_to_autocorrelate=30)
+    
+    # Perform auto-correlation
+    auto_corr_results = auto_corr_service.run_auto_cross_correlation(merged_df)
 
     # ========================================================
     # ================ CROSS-CORRELATION =====================
     # ========================================================
-    cross_corr_results = cross_corr_service.perform_cross_corr(merged_df)
+
+    # Perform cross-correlation
+    cross_corr_results = cross_corr_service.run_cross_correlation(merged_df)
 
     # ========================================================
     # ================ ARIMA MODEL ===========================
     # ========================================================
-    arima_results = arima_service.load_arima_results(app=app,arima_daysToForcast=7)
+    arima_results = arima_service.run_arima_model(app)
 
     logger.info("=== arima model done.")
 

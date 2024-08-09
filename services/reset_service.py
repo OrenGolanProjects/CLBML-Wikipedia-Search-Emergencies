@@ -15,7 +15,7 @@ class ResetService:
         self.static_directory = './static'
         self.instance_directory = './instance'
         self.files_to_remove = ['arima_results.csv', 'wiki_traffic_data.csv']
-        self.directories_to_remove = ['arima_figures', 'peaks_figures', 'cross_corr_figures']
+        self.directories_to_remove = ['arima_figures', 'peaks_figures', 'cross_corr_figures','auto_corr_figures']
         self.db_file = 'CLBML.db'
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(level=logging.INFO)

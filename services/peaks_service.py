@@ -19,6 +19,7 @@ class PeaksService:
         self.csv_file_path = './files/peaks_results.csv'  # for csv data
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(level=logging.INFO)
+
     def peaks_check_directory_existence(self):
         self.logger.info(">> START:: peaks_check_directory_existence")
         os.makedirs(self.figure_directory, exist_ok=True)
@@ -44,7 +45,7 @@ class PeaksService:
         for column in df.columns:
             if column != 'date':
                 event_name, language = self.parse_column_name(column)
-                peak_filename = f'{event_name}_{language}_peaks.png'
+                peak_filename = f'peaks_{language}_{event_name}.png'
                 data = df[column].dropna()
 
                 if data.empty:
@@ -85,8 +86,6 @@ class PeaksService:
         initial_distance = max(len(data_column) // 20, 1)  # Start with 5% of data length, minimum 1
         initial_prominence = 0.5  # Increased initial prominence
         
-        self.logger.info(f"Initial parameters: distance={initial_distance}, prominence={initial_prominence}")
-
         while True:
             peaks, properties = find_peaks(
                 data_column,
@@ -94,17 +93,12 @@ class PeaksService:
                 prominence=initial_prominence,
             )
             
-            self.logger.info(f"Number of peaks found: {len(peaks)}")
-            
             if len(peaks) <= peaks_toFind:  # Added upper limit for prominence
                 break
             
             initial_distance = int(initial_distance * 1.01)
-            initial_prominence *= 1.02  # Increased prominence adjustment factor
-            
-            self.logger.info(f"Adjusted parameters: distance={initial_distance}, prominence={initial_prominence}")
+            initial_prominence *= 1.02 
 
-        self.logger.info(f"Final number of peaks: {len(peaks)}")
         # Save the figure if peaks are detected
         if len(peaks) > 0:
             plt.figure(figsize=(20, 6))
@@ -161,3 +155,41 @@ class PeaksService:
         df.to_csv(self.csv_file_path, index=False, mode='w')
         self.logger.info(f"Peaks results written to CSV file: {self.csv_file_path}")
         self.logger.info(">> END:: write_peaks_to_csv")
+
+    def run_peak_detection(self, df, peaks_toFind=5):
+        """
+        Check if figures exist, if not, perform peak detection.
+        
+        :param df: DataFrame to be used for peak detection.
+        :param peaks_toFind: Number of peaks to find.
+        :return: Dictionary of figures or result of detect_peaks.
+        """
+        self.logger.info(">> START:: run_peak_detection")
+        
+        # Check if the figure directory exists and contains files
+        if os.path.exists(self.figure_directory):
+            figures = {}
+            for f in os.listdir(self.figure_directory):
+                if f.endswith('.png'):
+                    event_name, language = self.parse_column_name(f.replace('peaks_', '').replace('.png', ''))
+                    if event_name not in figures:
+                        figures[event_name] = []
+                    figures[event_name].append({
+                        'filename': f,
+                        'event_name': event_name,
+                        'language': language
+                    })
+            if figures:
+                for event, imgs in figures.items():
+                    for img in imgs:
+                        self.logger.info(f"Loaded existing figure: {img['filename']}")
+                self.logger.info("Figures already exist. Returning existing figures.")
+                self.logger.info(">> END:: run_peak_detection")
+                return figures
+        
+        # If figures do not exist, perform peak detection
+        self.logger.info("Figures do not exist. Performing peak detection.")
+        result = self.detect_peaks(df, peaks_toFind)
+        self.logger.info(">> END:: run_peak_detection")
+        return result    
+

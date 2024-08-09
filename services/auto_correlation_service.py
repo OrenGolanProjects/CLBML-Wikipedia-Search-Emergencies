@@ -74,7 +74,7 @@ class AutoCorrelationService:
         self.logger.info(f"Ensured directory exists: {self.figure_directory}")
         self.logger.info(">> END:: auto_corr_check_directory_existence")
 
-    def perform_auto_corr(self, df,days_to_autocorrelate=1):
+    def perform_auto_corr(self, df, days_to_autocorrelate=30):
         self.logger.info(">> START:: perform_auto_corr")
 
         if df.empty:
@@ -101,7 +101,7 @@ class AutoCorrelationService:
                 # Plot the auto-correlation
                 plt.figure(figsize=(12, 6))
                 plt.acorr(series, maxlags=days_to_autocorrelate, color='blue', alpha=1)
-                plt.title(f"Auto-correlation for {col} (Last {days_to_autocorrelate} Days)")
+                plt.title(f"Auto-correlation for {col} (Last \u00B1{days_to_autocorrelate} Days)")
                 plt.xlabel("Lag")
                 plt.ylabel("Auto-correlation")
                 plt.tight_layout()
@@ -134,7 +134,7 @@ class AutoCorrelationService:
             self.logger.info(">> END:: perform_auto_corr")
             return result_file_paths
 
-    def auto_correlation(self, series, days_to_autocorrelate=40):
+    def auto_correlation(self, series, days_to_autocorrelate=30):
         # Remove NaN values
         series = series.dropna()
 
@@ -145,3 +145,34 @@ class AutoCorrelationService:
         # Calculate auto-correlation
         autocorr = np.correlate(series, series, mode='full')
         return autocorr[autocorr.size // 2:] / (np.std(series) * len(series))
+
+    def run_auto_cross_correlation(self, df):
+        """
+        Check if figures exist, if not, perform auto-correlation.
+        
+        :param df: DataFrame to be used for auto-correlation.
+        :param days_to_autocorrelate: Number of days to auto-correlate.
+        :return: Dictionary of figures or result of perform_auto_corr.
+        """
+        self.logger.info(">> START:: run_auto_cross_correlation")
+        
+        # Check if the figure directory exists and contains files
+        if os.path.exists(self.figure_directory) and os.listdir(self.figure_directory):
+            self.logger.info("Figures already exist. Returning existing figures.")
+            figures = {}
+            for f in os.listdir(self.figure_directory):
+                if f.endswith('.png'):
+                    subject = f.split('_')[3].split('.')[0]  # Assuming the filename format is 'auto_corr_{col}.png'
+                    if subject not in figures:
+                        figures[subject] = []
+                    figures[subject].append({
+                        'auto_corr_plot': f
+                    })
+            self.logger.info(">> END:: run_auto_cross_correlation")
+            return figures
+        
+        # If figures do not exist, perform auto-correlation
+        self.logger.info("Figures do not exist. Performing auto-correlation.")
+        result = self.perform_auto_corr(df, 30)
+        self.logger.info(">> END:: run_auto_cross_correlation")
+        return result

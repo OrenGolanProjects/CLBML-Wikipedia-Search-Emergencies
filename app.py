@@ -177,14 +177,21 @@ def research():
                         cross_corr_results=cross_corr_results,
                         auto_corr_results=auto_corr_results)
 
-
 @app.route('/print_files')
 def print_files():
     reset_service = ResetService()
     reset_service.print_files_and_directories()
     print_all_tables(app)
     return render_template('welcome.html')
-    
+
+@app.route('/wiki_traffic')
+def wiki_traffic():
+    wiki_traffic_service = WikiTrafficService()
+    df = wiki_traffic_service.get_traffic_data_as_dataframe()
+    columns = df.columns.tolist()
+    data = df.to_dict(orient='records')
+    return render_template('wiki_traffic.html', columns=columns, data=data)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

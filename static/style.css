@@ -552,3 +552,15 @@ button:hover {
     margin-bottom: 15px;
     color: #fff; /* Ensure heading text is white */
 }
+
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navigation-buttons button {
+    flex: 1;
+    margin: 0 10px; /* Optional: Add some margin between buttons */
+}

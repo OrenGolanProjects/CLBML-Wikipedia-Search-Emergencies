@@ -5,6 +5,14 @@
 {% block content %}
 <h1>Research Results</h1>
 
+<!-- Navigation Buttons -->
+<div class="navigation-buttons">
+    <!-- <button onclick="window.location.href='#results-carousel'">Peaks Detection</button> -->
+    <button onclick="window.location.href='#auto-correlation'">Auto-Correlation</button>
+    <button onclick="window.location.href='#cross-correlation-carousel'">Cross-Correlation</button>
+    <button onclick="window.location.href='#arima-carousel'">ARIMA Model</button>
+</div>
+
 <!-- ======================================================================================================================================= -->
 <!-- Peaks Detection Section -->
 <section id="results-carousel" class="btm-mrgin-section">
@@ -16,7 +24,6 @@
         <p> להלן המפות החמות שמציינות את הpeaks שזוהו עבור כל נבדק. </p>
         <p> כל תמונה מציגה את הpeaks בגרף הזמן המתאים, עם הדגשה על המקומות שבהם נרשמו peaks.</p>
     </div>
-
 
     <div class="hive-container">
         <!-- Create carousel for each subject -->
@@ -54,6 +61,7 @@
         </div>
         {% endfor %}
     </div>
+    <button onclick="window.location.href='#top'">Go to Top</button>
 </section>
 <!-- Peaks Detection Section -->
 <!-- ======================================================================================================================================= -->
@@ -102,6 +110,7 @@
         </div>
         {% endfor %}
     </div>
+    <button onclick="window.location.href='#top'">Go to Top</button>
 </section>
 <!-- Auto-Correlation Section -->
 <!-- ======================================================================================================================================= -->
@@ -171,11 +180,10 @@
         {% endfor %}
         {% endif %}
     </div>
-
+    <button onclick="window.location.href='#top'">Go to Top</button>
 </section>
 <!-- Cross-Correlation Section -->
 <!-- ======================================================================================================================================= -->
-
 
 <!-- ======================================================================================================================================= -->
 <!-- ARIMA Model Section -->
@@ -204,7 +212,6 @@
             <li>Model summary: overall fit statistics and explanatory power of the model.</li>
         </ul>
     </div>
-
 
     <div class="hive-container">
         {% for subject, arima_data_list in arima_results.items() %}
@@ -244,6 +251,7 @@
         {% endfor %}
 
     </div>
+    <button onclick="window.location.href='#top'">Go to Top</button>
 </section>
 <!-- ARIMA Model Section -->
 {% endblock %}

@@ -4,52 +4,99 @@ This project aims to analyze the interrelationships and political responses to c
 
 ## Project Structure
 ```
-    CLBML/
+        CLBML-Wikipedia-Search-Emergencies/
     │
     ├── app.py
     ├── instance/
-    │ ├── CLBML.db
+    │   ├── CLBML.db
     ├── templates/
-    │ ├── base.html
-    │ ├── events.html
-    │ ├── research.html
-    │ ├── welcome.html
-    │ ├── wiki_traffic.html
-    │ └── wikipedia.html
+    │   ├── base.html
+    │   ├── events.html
+    │   ├── research.html
+    │   ├── welcome.html
+    │   ├── wiki_traffic.html
+    │   └── wikipedia.html
     ├── tests/
-    │ ├── test_cross_correlation.py
+    │   ├── test_auto_correlation.py
+    │   ├── test_cross_correlation.py
     ├── static/
-    │ └── style.css
+    │   ├── favicon.ico
+    │   ├── style.css
+    │   ├── arima_figures/
+    │   │   ├── arima_forecast_ar_Charlie Hebdo shooting.png
+    │   │   ├── arima_forecast_ar_Israel–Hamas war.png
+    │   │   ├── arima_forecast_ar_Manchester Arena bombing.png
+    │   │   ├── arima_forecast_en_Charlie Hebdo shooting.png
+    │   │   ├── arima_forecast_en_Israel–Hamas war.png
+    │   │   ├── arima_forecast_en_Manchester Arena bombing.png
+    │   │   ├── arima_forecast_fr_Charlie Hebdo shooting.png
+    │   │   ├── arima_forecast_he_Israel–Hamas war.png
+    │   ├── auto_corr_figures/
+    │   │   ├── auto_corr_ar_Charlie Hebdo shooting.png
+    │   │   ├── auto_corr_ar_Israel–Hamas war.png
+    │   │   ├── auto_corr_ar_Manchester Arena bombing.png
+    │   │   ├── auto_corr_en_Charlie Hebdo shooting.png
+    │   │   ├── auto_corr_en_Israel–Hamas war.png
+    │   │   ├── auto_corr_en_Manchester Arena bombing.png
+    │   │   ├── auto_corr_fr_Charlie Hebdo shooting.png
+    │   │   ├── auto_corr_he_Israel–Hamas war.png
+    │   ├── peaks_figures/
+    │   │   ├── peaks_ar_Charlie Hebdo shooting.png
+    │   │   ├── peaks_ar_Israel–Hamas war.png
+    │   │   ├── peaks_ar_Manchester Arena bombing.png
+    │   │   ├── peaks_en_Charlie Hebdo shooting.png
+    │   │   ├── peaks_en_Israel–Hamas war.png
+    │   │   ├── peaks_en_Manchester Arena bombing.png
+    │   │   ├── peaks_fr_Charlie Hebdo shooting.png
+    │   │   ├── peaks_he_Israel–Hamas war.png
     ├── models/
-    │ ├── init.py
-    │ ├── event.py
-    │ └── wikipedia_page.py
+    │   ├── __init__.py
+    │   ├── event.py
+    │   ├── wikipedia_page.py
     ├── repositories/
-    │ ├── init.py
-    │ ├── event_repository.py
-    │ ├── wikipedia_repository.py
-    │ └── wiki_traffic_repository.py
+    │   ├── __init__.py
+    │   ├── event_repository.py
+    │   ├── wikipedia_repository.py
+    │   ├── wiki_traffic_repository.py
     ├── services/
-    │ ├── init.py
-    │ ├── event_service.py
-    │ ├── outlier_service.py
-    │ ├── arima_service.py
-    │ ├── wikipedia_service.py
-    │ └── wiki_traffic_service.py
+    │   ├── __init__.py
+    │   ├── arima_service.py
+    │   ├── auto_correlation_service.py
+    │   ├── cross_corr_service.py
+    │   ├── event_service.py
+    │   ├── outlier_service.py
+    │   ├── peaks_service.py
+    │   ├── reset_service.py
+    │   ├── wikipedia_service.py
+    │   ├── wiki_traffic_service.py
     ├── utils/
-    │ ├── init.py
-    │ ├── api.py
-    │ ├── database.py
-    │ └── exceptions.py
+    │   ├── __init__.py
+    │   ├── api.py
+    │   ├── database.py
+    │   ├── exceptions.py
     ├── components/
-    │ ├── events_component.py
-    │ ├── wikipedia_component.py
-    │ ├── update_check_component.py
-    │ └── wiki_traffic_component.py
+    │   ├── __pycache__/
+    │   │   ├── arima_component.cpython-311.pyc
+    │   │   ├── auto_correlation_component.cpython-311.pyc
+    │   │   ├── events_component.cpython-311.pyc
+    │   │   ├── peaks_component.cpython-311.pyc
+    │   │   ├── update_check_component.cpython-311.pyc
+    │   │   ├── wikipedia_component.cpython-311.pyc
+    │   │   ├── wiki_traffic_component.cpython-311.pyc
+    │   ├── arima_component.py
+    │   ├── auto_correlation_component.py
+    │   ├── events_component.py
+    │   ├── peaks_component.py
+    │   ├── update_check_component.py
+    │   ├── wikipedia_component.py
+    │   ├── wiki_traffic_component.py
     ├── files/
-    │ ├── wiki_traffic_data.csv
-    │ ├── events_default.json
-    │ └── wikipedia_pages_default.json
+    │   ├── arima_results.csv
+    │   ├── cross_correlation.csv
+    │   ├── events_default.json
+    │   ├── peaks_results.csv
+    │   ├── wikipedia_pages_default.json
+    │   ├── wiki_traffic_data.csv
     ├── requirements.txt
     └── .env
 ```

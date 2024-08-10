@@ -9,6 +9,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+
 }
 
 .right_to_left {
@@ -343,7 +344,10 @@ button:hover {
     margin: 20px auto;
     display: flex;
     justify-content: flex-start; /* Align form to the left */
+    margin-top: auto; /* Pushes the container to the bottom */
+
 }
+
 
 /* Form Styles */
 .peak-detection-form {

@@ -35,6 +35,7 @@ class ResetService:
         """
         Initialize the ResetService with directories and files to manage.
         """
+        self.root_directory = 'CLBML-Wikipedia-Search-Emergencies'
         self.files_directory = './files'
         self.static_directory = './static'
         self.instance_directory = './instance'
@@ -94,36 +95,63 @@ class ResetService:
 
         self.logger.info(">> END:: create_directories")
 
+    # def print_files_and_directories(self):
+    #     """
+    #     Print the files that exists in the directories.
+    #     """
+    #     self.logger.info(">> START:: print_files_and_directories")
+
+    #     # Loop through the directory files and print them
+    #     for file_name in self.files_to_remove:
+    #         file_path = os.path.join(self.files_directory, file_name)
+    #         if os.path.exists(file_path):
+    #             self.logger.info(f"EXISTS:: File {file_path}.")
+    #         else:
+    #             self.logger.warning(f"NOT EXISTS:: No file found at {file_path}")
+        
+    #     # Loop through the directory static files and print them
+    #     for dir_name in self.directories_to_remove:
+    #         dir_path = os.path.join(self.static_directory, dir_name)
+    #         if os.path.exists(dir_path):
+    #             self.logger.info(f"EXISTS:: Directory {dir_path}.")
+    #         else:
+    #             self.logger.warning(f"NOT EXISTS:: No directory found at {dir_path}")
+        
+    #     # Print the database file
+    #     db_file_path = os.path.join(self.instance_directory, self.db_file)
+    #     if os.path.exists(db_file_path):
+    #         self.logger.info(f"EXISTS:: Database file {db_file_path}.")
+    #     else:
+    #         self.logger.warning(f"NOT EXISTS:: No database file found at {db_file_path}")
+
+    #     self.logger.info(">> END:: print_files_and_directories")
+
     def print_files_and_directories(self):
         """
-        Print the files that exists in the directories.
+        Print all the files that exist in the root directory and its subdirectories.
         """
         self.logger.info(">> START:: print_files_and_directories")
+        root_directory = '../CLBML-Wikipedia-Search-Emergencies'
+        directories = ["instance", "templates", "tests", "static", "models", "repositories", "services", "utils", "components", "files"]
 
-        # Loop through the directory files and print them
-        for file_name in self.files_to_remove:
-            file_path = os.path.join(self.files_directory, file_name)
-            if os.path.exists(file_path):
-                self.logger.info(f"EXISTS:: File {file_path}.")
-            else:
-                self.logger.warning(f"NOT EXISTS:: No file found at {file_path}")
-        
-        # Loop through the directory static files and print them
-        for dir_name in self.directories_to_remove:
-            dir_path = os.path.join(self.static_directory, dir_name)
-            if os.path.exists(dir_path):
-                self.logger.info(f"EXISTS:: Directory {dir_path}.")
-            else:
-                self.logger.warning(f"NOT EXISTS:: No directory found at {dir_path}")
-        
-        # Print the database file
-        db_file_path = os.path.join(self.instance_directory, self.db_file)
-        if os.path.exists(db_file_path):
-            self.logger.info(f"EXISTS:: Database file {db_file_path}.")
-        else:
-            self.logger.warning(f"NOT EXISTS:: No database file found at {db_file_path}")
+        # Check if the root directory exists
+        if not os.path.exists(root_directory):
+            self.logger.error(f"Root directory {root_directory} does not exist.")
+            return
+
+        # Walk through the root directory and print all files in specified directories
+        for root, dirs, files in os.walk(root_directory):
+            relative_path = os.path.relpath(root, root_directory)
+            if any(relative_path.startswith(directory) for directory in directories):
+                for file_name in files:
+                    file_path = os.path.join(root, file_name)
+                    if os.path.exists(file_path):
+                        self.logger.info(f"EXISTS:: File {file_path}.")
+                    else:
+                        self.logger.warning(f"NOT EXISTS:: No file found at {file_path}")
 
         self.logger.info(">> END:: print_files_and_directories")
+
 
 
 # Example usage

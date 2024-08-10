@@ -2,13 +2,13 @@ html, body {
     height: 100%;
     margin: 0;
 }
+
 /* General Styles */
 body {
     display: flex;
     flex-direction: column;
     margin: 0;
 }
-
 
 /* Ensure the main container fills the available space */
 main.container {
@@ -29,14 +29,13 @@ main.container {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 600px;
-    /* margin-top: auto; Pushes the container to the bottom of .main-content */
 }
 
-
+/* Right-to-left text direction */
 .right_to_left {
     direction: rtl;
     text-align: right;
-    font-size: 1.2rem
+    font-size: 1.2rem;
 }
 
 .content {
@@ -74,7 +73,6 @@ nav ul {
     padding: 0;
     text-align: center;
     margin: 0;
-
 }
 
 nav ul li {
@@ -112,106 +110,59 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+    table-layout: fixed; /* Ensures columns have fixed width */
 }
 
 th, td {
-    padding: 12px;
+    padding: 14px;
     border: 1px solid #ddd;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-align: center;
+    text-align: center; /* Center-align the text */
+    overflow: hidden;  /* Hide overflowed text */
+    
+
 }
 
 th {
-    background-color: #35424a;
-    color: white;
-    font-weight: bold;
-    position: relative; /* Required for the sliding effect */
+    background-color: #35424a; /* Header background color */
+    color: white; /* Header text color */
+    font-weight: bold; /* Bold header text */
 }
 
-th::after {
-    content: attr(data-text); /* Reuse the column name for the */
-    position: absolute;
-    left: 100%; /* Start off-screen */
-    white-space: nowrap;
-}
-
+/* Zebra striping for table rows */
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-/* Form Styles */
-.add-form {
-    background: #f4f4f4;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-}
-
-.add-form h2 {
-    margin-top: 0;
-}
-
-input[type="text"], input[type="datetime-local"], input[type="number"] {
+/* Scrollable Table Styles */
+.table-responsive {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-button {
-    background-color: #35424a;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+/* Table styles */
+.table-container table {
+    width: 100%; /* Full width of the container */
+    border-collapse: collapse; /* Merge table borders */
 }
 
-button:hover {
-    background-color: #e8491d;
+/* Sticky header row */
+.table-container thead {
+    position: -webkit-sticky; /* For Safari compatibility */
+    position: sticky; /* Sticky positioning for modern browsers */
+    top: 0; /* Stick to the top of the container */
+    background-color: #ffffff; /* Background color to ensure visibility */
+    z-index: 1; /* Ensure the header stays on top */
 }
 
-.delete-btn {
-    background-color: #ff4136;
+.table-container td {
+    /* Ensure text is contained within cell */
+    overflow: hidden;  /* Hide overflowed text */
+    text-overflow: ellipsis;  /* Add ellipsis */
+    white-space: nowrap;  /* Prevent line breaks */
 }
 
-.delete-btn:hover {
-    background-color: #dc352d;
-}
-
-/* Wikipedia Table Adjustments */
-.table-fixed {
-    table-layout: fixed; /* Fixed column width */
-}
-
-.table-fixed th:nth-child(1),
-.table-fixed td:nth-child(1) {
-    width: 10%; /* Event Code */
-}
-
-.table-fixed th:nth-child(2),
-.table-fixed td:nth-child(2) {
-    width: 30%; /* Page Title */
-}
-
-.table-fixed th:nth-child(3),
-.table-fixed td:nth-child(3) {
-    width: 20%; /* Language */
-}
-
-.table-fixed th:nth-child(4),
-.table-fixed td:nth-child(4) {
-    width: 20%; /* Views */
-}
-
-.table-fixed th:nth-child(5),
-.table-fixed td:nth-child(5) {
-    width: 20%; /* Actions */
-}
 
 /* Modal Styles */
 .modal {
@@ -232,7 +183,6 @@ button:hover {
     text-decoration: none;
     cursor: pointer;
 }
-
 
 .card-img-top {
     width: 100%;
@@ -318,14 +268,14 @@ button:hover {
     top: 0; /* Stick the header to the top */
     background-color: #f8f9fa; /* Background color to ensure header is visible */
     z-index: 1; /* Make sure the header stays on top of the table body */
-    text-align: center; /* Align text to the left */
+    text-align: center; /* Align text to the center */
 }
 
 .scrollable-table-container th,
 .scrollable-table-container td {
     border: 1px solid #dee2e6; /* Border color */
     padding: 8px; /* Padding inside cells */
-    text-align: auto; /* Align text to the left */
+    text-align: center; /* Align text to the center */
 }
 
 .wide-frame {
@@ -346,16 +296,48 @@ button:hover {
     margin-bottom: 0;
 }
 
-.carousel-item .card-body {
-    padding: 1.25rem;
-}
-
-.carousel-item .card {
-    height: 100%;
-}
-
-
 /* Form Styles */
+.add-form {
+    background: #f4f4f4;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.add-form h2 {
+    margin-top: 0;
+}
+
+input[type="text"], input[type="datetime-local"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #35424a;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e8491d;
+}
+
+.delete-btn {
+    background-color: #ff4136;
+}
+
+.delete-btn:hover {
+    background-color: #dc352d;
+}
+
+/* Peak Detection Form Styles */
 .peak-detection-form {
     display: flex;
     flex-wrap: wrap;
@@ -421,21 +403,18 @@ button:hover {
     margin-bottom: 40px;
 }
 
-
-/* ---------------------- */
+/* Modal Styles */
 .modal-xl .modal-dialog {
     max-width: 1200px; 
     width: 1200px;
 }
 
-/* Modal Styles */
 .modal-content {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
 }
-
 
 .modal-body {
     display: flex;
@@ -445,10 +424,6 @@ button:hover {
     height: 80%;
 }
 
-
-
-
-/* ---------------------- */
 .close {
     position: absolute;
     top: 10px;
@@ -457,8 +432,6 @@ button:hover {
     opacity: 1;
     text-shadow: 0 0 3px rgba(0,0,0,0.8);
 }
-
-
 
 .narrow-input {
     max-width: 100px;
@@ -514,6 +487,7 @@ button:hover {
 .table-sm td {
     padding: 0.3rem;
 }
+
 .table-responsive {
     max-height: 250px;
     overflow-y: auto;
@@ -552,7 +526,6 @@ button:hover {
     margin-bottom: 15px;
     color: #fff; /* Ensure heading text is white */
 }
-
 
 .navigation-buttons {
     display: flex;

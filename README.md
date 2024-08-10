@@ -4,7 +4,7 @@ This project aims to analyze the interrelationships and political responses to c
 
 ## Project Structure
 ```
-        CLBML-Wikipedia-Search-Emergencies/
+    CLBML-Wikipedia-Search-Emergencies/
     │
     ├── app.py
     ├── instance/

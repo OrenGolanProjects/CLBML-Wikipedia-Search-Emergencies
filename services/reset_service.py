@@ -131,7 +131,7 @@ class ResetService:
         Print all the files that exist in the root directory and its subdirectories.
         """
         self.logger.info(">> START:: print_files_and_directories")
-        root_directory = '../CLBML-Wikipedia-Search-Emergencies'
+        root_directory = os.path.dirname(os.path.dirname(__file__))
         directories = ["instance", "templates", "tests", "static", "models", "repositories", "services", "utils", "components", "files"]
 
         # Check if the root directory exists

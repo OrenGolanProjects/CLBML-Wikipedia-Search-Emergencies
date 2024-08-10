@@ -46,3 +46,4 @@ def perform_updates(app):
         load_default_auto_correlation(app)
         load_default_arima(app)
         update_log()
+

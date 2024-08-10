@@ -6,6 +6,33 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
 
+
+import colorlog
+
+# Initialize logging with colorlog
+log_colors = {
+    'DEBUG': 'cyan',
+    'INFO': 'green',
+    'WARNING': 'yellow',
+    'ERROR': 'red',
+    'CRITICAL': 'bold_red',
+}
+
+formatter = colorlog.ColoredFormatter(
+    "%(log_color)s%(levelname)s:%(name)s:%(message)s (%(filename)s:%(lineno)d)",
+    log_colors=log_colors
+)
+
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # Set the logging level
+logger.addHandler(handler)
+logger.propagate = False  # Disable propagation to avoid duplicate log messages
+
+
+
 class PeaksService:
     """
     Service for detecting peaks in data and saving the results as figures and CSV files.
@@ -17,7 +44,7 @@ class PeaksService:
         """
         self.figure_directory = 'static/peaks_figures'  # for images
         self.csv_file_path = './files/peaks_results.csv'  # for csv data
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger
         logging.basicConfig(level=logging.INFO)
 
     def peaks_check_directory_existence(self):

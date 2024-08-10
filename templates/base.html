@@ -6,6 +6,8 @@
     <title>{% block title %}Flask App{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
 </head>
 <body>
     <header>
@@ -21,7 +23,7 @@
     <main class="container mt-4">
         {% block content %}{% endblock %}
     </main>
-    <footer class="text-center mt-4">
+    <footer class="footer mt-auto">
         <p>&copy; 2024 Oren Golan || Ravit Mamani. All rights reserved.</p>
     </footer>
 

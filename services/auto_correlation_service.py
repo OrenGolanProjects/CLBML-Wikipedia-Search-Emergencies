@@ -12,6 +12,7 @@ import pandas as pd
 
 matplotlib.use('Agg')
 
+
 # Initialize logging with colorlog
 log_colors = {
     'DEBUG': 'cyan',

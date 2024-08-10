@@ -1,12 +1,8 @@
 import os
-import shutil
 import logging
 import colorlog
 import matplotlib
-import matplotlib.pyplot as plt
-
 import numpy as np
-from scipy import signal
 import pandas as pd
 
 matplotlib.use('Agg')

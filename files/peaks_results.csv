@@ -1,39 +1,39 @@
 event_name,language,date,traffic_value
-Manchester Arena bombing,en,2018-05-23,10.496284734199053
-Manchester Arena bombing,en,2020-05-23,7.718788107154422
-Manchester Arena bombing,en,2021-05-24,9.434616139305545
-Manchester Arena bombing,en,2023-05-24,9.102174458076266
-Manchester Arena bombing,en,2024-05-24,5.39169633854946
-Manchester Arena bombing,ar,2018-05-24,0.4200552315535369
-Manchester Arena bombing,ar,2019-05-23,0.6515838135120174
-Manchester Arena bombing,ar,2020-05-23,0.7584431590313162
-Manchester Arena bombing,ar,2021-05-24,0.5472687381241306
-Manchester Arena bombing,ar,2022-05-24,1.6234950037113536
-Israel–Hamas war,en,2024-03-02,1.5527099036499352
-Israel–Hamas war,en,2024-04-15,1.9602836191951416
-Israel–Hamas war,en,2024-05-08,1.8756627628750286
-Israel–Hamas war,en,2024-05-30,2.0860748261876747
-Israel–Hamas war,en,2024-08-02,0.9625643386859812
-Israel–Hamas war,ar,2023-11-06,0.1939123022705834
-Israel–Hamas war,ar,2024-01-04,3.706523854141143
-Israel–Hamas war,ar,2024-03-03,1.7512012530434253
-Israel–Hamas war,ar,2024-03-20,2.1934293869630914
-Israel–Hamas war,ar,2024-07-19,3.2512640135204487
-Israel–Hamas war,he,2023-10-11,4.947841979958503
-Israel–Hamas war,he,2023-11-02,2.8229312718522497
-Israel–Hamas war,he,2023-12-09,0.731302711119855
-Israel–Hamas war,he,2024-05-13,-0.24824750005483254
-Charlie Hebdo shooting,en,2015-11-16,31.521302197967923
-Charlie Hebdo shooting,en,2016-07-17,1.0518113965716496
-Charlie Hebdo shooting,en,2020-10-30,4.104064560842004
-Charlie Hebdo shooting,en,2022-02-09,5.354825855730546
-Charlie Hebdo shooting,en,2024-07-30,2.4465890753928714
-Charlie Hebdo shooting,ar,2015-11-16,11.646882844353819
-Charlie Hebdo shooting,ar,2019-03-17,18.483019787979153
-Charlie Hebdo shooting,ar,2020-10-26,15.448467121277316
-Charlie Hebdo shooting,ar,2023-02-09,5.693994421589786
-Charlie Hebdo shooting,ar,2024-07-29,3.1062312113470263
-Charlie Hebdo shooting,fr,2015-11-15,25.412782109439387
-Charlie Hebdo shooting,fr,2016-10-05,2.6885959856961015
-Charlie Hebdo shooting,fr,2019-01-08,2.952810104253934
-Charlie Hebdo shooting,fr,2020-01-08,7.774816208366015
+Manchester Arena bombing,en,2018-05-23,10.409541410425543
+Manchester Arena bombing,en,2020-05-23,7.654320732143025
+Manchester Arena bombing,en,2021-05-24,9.356387560425661
+Manchester Arena bombing,en,2023-05-24,9.026612112445902
+Manchester Arena bombing,en,2024-05-24,5.345892596284697
+Manchester Arena bombing,ar,2018-05-24,0.42009744844273794
+Manchester Arena bombing,ar,2019-05-23,0.6516695798848113
+Manchester Arena bombing,ar,2020-05-23,0.7585490251657684
+Manchester Arena bombing,ar,2021-05-24,0.54733488330102
+Manchester Arena bombing,ar,2022-05-24,1.623763582202087
+Israel–Hamas war,en,2024-03-02,1.5554349132095846
+Israel–Hamas war,en,2024-04-15,1.9636787989207325
+Israel–Hamas war,en,2024-05-08,1.8789188012105857
+Israel–Hamas war,en,2024-05-30,2.0896768433781188
+Israel–Hamas war,en,2024-08-02,0.9643189766634684
+Israel–Hamas war,ar,2023-11-06,0.19381950532628148
+Israel–Hamas war,ar,2024-01-04,3.7121716454776172
+Israel–Hamas war,ar,2024-03-03,1.7536535011656147
+Israel–Hamas war,ar,2024-03-20,2.1966043593619395
+Israel–Hamas war,ar,2024-07-19,3.256167783132009
+Israel–Hamas war,he,2023-10-11,4.953914011503231
+Israel–Hamas war,he,2023-11-02,2.827434151419816
+Israel–Hamas war,he,2023-12-09,0.7342610160946912
+Israel–Hamas war,he,2024-05-13,-0.2460125493107085
+Charlie Hebdo shooting,en,2015-11-16,31.52604520716609
+Charlie Hebdo shooting,en,2016-07-17,1.0519794809763938
+Charlie Hebdo shooting,en,2020-10-30,4.104690934122268
+Charlie Hebdo shooting,en,2022-02-09,5.355640027976532
+Charlie Hebdo shooting,en,2024-07-30,2.44696658249607
+Charlie Hebdo shooting,ar,2015-11-16,11.648646308929523
+Charlie Hebdo shooting,ar,2019-03-17,18.485804995022896
+Charlie Hebdo shooting,ar,2020-10-26,15.450798778113297
+Charlie Hebdo shooting,ar,2023-02-09,5.6948681557579235
+Charlie Hebdo shooting,ar,2024-07-29,3.106718173337992
+Charlie Hebdo shooting,fr,2015-11-15,25.41629278555582
+Charlie Hebdo shooting,fr,2016-10-05,2.6890551801354663
+Charlie Hebdo shooting,fr,2019-01-08,2.9533047782716304
+Charlie Hebdo shooting,fr,2020-01-08,7.775958397907183

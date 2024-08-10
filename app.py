@@ -17,6 +17,7 @@ from services.peaks_service import PeaksService
 from services.arima_service import ARIMAService
 from services.cross_corr_service import CrossCorrelationService
 from services.auto_correlation_service import AutoCorrelationService
+from services.reset_service import ResetService
 
 from components.update_check_component import has_updated_today, perform_updates
 
@@ -66,12 +67,13 @@ except Exception as e:
 # ========================================================
 # ================ UPDATE CHECK ==========================
 # ========================================================
-
 try:
     if not has_updated_today():
         perform_updates(app)
 except Exception as e:
     logger.error(f"Failed to perform updates: {e}")
+# ========================================================
+
 
 app.register_error_handler(Exception, handle_exception)
 
@@ -79,6 +81,13 @@ app.register_error_handler(Exception, handle_exception)
 def cleanup_matplotlib(exception=None):
     """Close all Matplotlib figures at the end of each request."""
     plt.close('all')
+
+@app.route('/print_files')
+def print_files():
+    reset_service = ResetService()
+    reset_service.print_files_and_directories()
+    return render_template('welcome.html')
+    
 
 @app.route('/')
 def welcome():

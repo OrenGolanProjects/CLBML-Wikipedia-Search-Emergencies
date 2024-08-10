@@ -15,26 +15,33 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 
 
+# Initialize logging with colorlog
+log_colors = {
+    'DEBUG': 'cyan',
+    'INFO': 'green',
+    'WARNING': 'yellow',
+    'ERROR': 'red',
+    'CRITICAL': 'bold_red',
+}
+
+formatter = colorlog.ColoredFormatter(
+    "%(log_color)s%(levelname)s:%(name)s:%(message)s (%(filename)s:%(lineno)d)",
+    log_colors=log_colors
+)
+
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # Set the logging level
+logger.addHandler(handler)
+logger.propagate = False  # Disable propagation to avoid duplicate log messages
+
+
 
 class ARIMAService:
     def __init__(self):
-        self.logger = logging.getLogger(__name__)
-        log_colors = {
-            'DEBUG': 'cyan',
-            'INFO': 'green',
-            'WARNING': 'yellow',
-            'ERROR': 'red',
-            'CRITICAL': 'bold_red',
-        }
-        formatter = colorlog.ColoredFormatter(
-            "%(log_color)s%(levelname)s:%(name)s:%(message)s (%(filename)s:%(lineno)d)",
-            log_colors=log_colors
-        )
-        handler = logging.StreamHandler()
-        handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
-        self.logger.setLevel(logging.DEBUG)
-        self.logger.propagate = False
+        self.logger = logger
 
         self.figure_directory = 'static/arima_figures'
         self.csv_file_path = './files/arima_results.csv'

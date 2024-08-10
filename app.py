@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
-from utils.database import init_db
+from utils.database import init_db,print_all_tables
 from utils.exceptions import handle_exception
 
 from services.event_service import EventService
@@ -84,8 +84,10 @@ def cleanup_matplotlib(exception=None):
 
 @app.route('/print_files')
 def print_files():
+    print_all_tables(app)
     reset_service = ResetService()
     reset_service.print_files_and_directories()
+    
     return render_template('welcome.html')
     
 

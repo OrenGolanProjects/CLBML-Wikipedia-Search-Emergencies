@@ -59,7 +59,13 @@ def print_all_tables(app):
     with app.app_context():
         inspector = inspect(db.engine)
         tables = inspector.get_table_names()
-        logger.info("Tables in the database:")
+        logger.info("*****************************************************")
+        logger.info("***** Printing all tables and their columns *********")
+        logger.info("*****************************************************")
+
         for table in tables:
             columns = [column['name'] for column in inspector.get_columns(table)]
             logger.info(f"- {table}, columns: {', '.join(columns)}")
+
+        logger.info("*****************************************************")
+        logger.info("*****************************************************\n\n")

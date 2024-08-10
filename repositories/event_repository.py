@@ -22,7 +22,8 @@ class EventRepository:
 
     @staticmethod
     def get_by_name(name):
-        return Event.query.filter_by(name=name).first()
+        event = Event.query.filter_by(name=name).first()
+        return event
 
     @staticmethod
     def get_by_event_code(event_code):

@@ -1,5 +1,6 @@
 """This is the main file for the Flask application. It contains the routes for the application and the main function to run the application."""
 
+
 import os
 import logging
 import colorlog
@@ -82,14 +83,6 @@ def cleanup_matplotlib(exception=None):
     """Close all Matplotlib figures at the end of each request."""
     plt.close('all')
 
-@app.route('/print_files')
-def print_files():
-    print_all_tables(app)
-    reset_service = ResetService()
-    reset_service.print_files_and_directories()
-    
-    return render_template('welcome.html')
-    
 
 @app.route('/')
 def welcome():
@@ -99,6 +92,7 @@ def welcome():
 @app.route('/events', methods=['GET', 'POST'])
 def manage_events():
     """Route for managing events."""
+
     logger.info(">> START:: /events")
     if request.method == 'POST':
         event_name = request.form.get('name')
@@ -182,6 +176,15 @@ def research():
                         arima_results=arima_results, 
                         cross_corr_results=cross_corr_results,
                         auto_corr_results=auto_corr_results)
+
+
+@app.route('/print_files')
+def print_files():
+    reset_service = ResetService()
+    reset_service.print_files_and_directories()
+    print_all_tables(app)
+    return render_template('welcome.html')
+    
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

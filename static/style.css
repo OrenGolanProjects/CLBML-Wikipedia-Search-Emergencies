@@ -1,16 +1,37 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    background-color: #f4f4f4;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-
+    margin: 0;
 }
+
+
+/* Ensure the main container fills the available space */
+main.container {
+    flex: 1;
+}
+
+/* Flexbox layout for .main-content to push the form-container to the bottom */
+.main-content {
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Form Container Styles */
+.form-container {
+    background: #ffffff;
+    padding: 20px;
+    margin: 20px auto; /* Center the form horizontally */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    /* margin-top: auto; Pushes the container to the bottom of .main-content */
+}
+
 
 .right_to_left {
     direction: rtl;
@@ -41,7 +62,7 @@ header {
 
 /* Footer Styles */
 footer {
-    margin-top: 40px; /* Increase the top margin for more space */
+    margin-top: 20px; /* Increase the top margin for more space */
     padding: 20px;
     text-align: center;
     border-top: 1px solid #ddd;
@@ -333,21 +354,6 @@ button:hover {
     height: 100%;
 }
 
-/* Form Container Styles */
-.form-container {
-    background: #ffffff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 20px auto;
-    display: flex;
-    justify-content: flex-start; /* Align form to the left */
-    margin-top: auto; /* Pushes the container to the bottom */
-
-}
-
 
 /* Form Styles */
 .peak-detection-form {
@@ -516,4 +522,33 @@ button:hover {
 .red-bold {
     color: red;
     font-weight: bold;
+}
+
+#loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Darker background */
+    color: #fff; /* Change text color to white for better contrast */
+    text-align: center;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-content {
+    font-size: 18px;
+    max-width: 600px;
+    padding: 20px;
+    background: #333; /* Darker background for content */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.loading-content h2 {
+    margin-bottom: 15px;
+    color: #fff; /* Ensure heading text is white */
 }

@@ -40,20 +40,16 @@ def create_tables(app):
         # Create all tables
         db.create_all()
         logger.info("Created tables: events, wikipediaPages, wikiTraffic")
+        tables_to_clear = ['events', 'wikipediaPages', 'wikiTraffic']
+        for table in tables_to_clear:
+            if table in existing_tables:
+                logger.info(f"Clearing table: {table}")
+                db.session.execute(text(f"DELETE FROM {table}"))
+            else:
+                logger.info(f"Table {table} does not exist, skipping.")
 
-        if os.environ.get('DELETE_DATABASES', 'False').lower() == 'true':
-            logger.info("Resetting tables...")
-
-            tables_to_clear = ['events', 'wikipediaPages', 'wikiTraffic']
-            for table in tables_to_clear:
-                if table in existing_tables:
-                    logger.info(f"Clearing table: {table}")
-                    db.session.execute(text(f"DELETE FROM {table}"))
-                else:
-                    logger.info(f"Table {table} does not exist, skipping.")
-
-            db.session.commit()
-            logger.info("Tables cleared: events, wikipediaPages, wikiTraffic")
+        db.session.commit()
+        logger.info("Tables cleared: events, wikipediaPages, wikiTraffic")
 
 def print_all_tables(app):
     with app.app_context():

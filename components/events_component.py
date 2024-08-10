@@ -31,6 +31,7 @@ logger.propagate = False  # Disable propagation to avoid duplicate log messages
 # Load default events from a JSON file
 def load_default_events():
     logger.info(">> START:: load_default_events")
+
     event_filePath = 'files/events_default.json'
     with open(event_filePath, 'r', encoding='utf-8') as file:
         events_data = json.load(file)

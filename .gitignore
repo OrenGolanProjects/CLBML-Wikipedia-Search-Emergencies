@@ -62,7 +62,6 @@ db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
-instance/
 .webassets-cache
 
 # Scrapy stuff:
@@ -130,3 +129,6 @@ cython_debug/
 # Local environment variables
 .env.local
 .env.*.local
+
+# update_log json   
+update_log.json

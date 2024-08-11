@@ -190,26 +190,33 @@
 <section id="arima-carousel" class="btm-mrgin-section">
     <h2>ARIMA Model Analysis Results</h2>
     <div class="right_to_left">
-        <p>The ARIMA model analysis provides insights into time series forecasting.</p>
-        <p>Each subject is represented by a table displaying the forecasted values and confidence intervals.</p>
-        <p>Model details:</p>
+        <h1>מודל ARIMA (Autoregressive Integrated Moving Average)</h1>
+        <p>מודל ARIMA הוא כלי לניתוח תחזיות של סדרות זמן. כל נושא מוצג בטבלה הכוללת את הערכים התחזויים ואת גבולות
+            הביטחון.</p>
+
+        <h2>פרטי המודל:</h2>
         <ul>
-            <li>Model order: (p,d,q) values, where:
+            <li><strong>סדר המודל:</strong> (p,d,q), שבו:
                 <ul>
-                    <li>p: autoregressive order</li>
-                    <li>d: degree of differencing</li>
-                    <li>q: moving average order</li>
+                    <li><strong>p:</strong> סדר האוטורגרסיה, המייצג את מספר ההתראות הקודמות שמשפיעות על הזמן הנוכחי.
+                    </li>
+                    <li><strong>d:</strong> דרגת ההבדלה, המייצגת את מספר הפעמים שהסדרה הוסרה כדי לחלץ את הטרנדים או
+                        השפעות לא תחזיותיות.</li>
+                    <li><strong>q:</strong> סדר הממוצע הנע, המתאר את מספר ההתראות הקודמות שמשפיעות על הזמן הנוכחי.</li>
                 </ul>
             </li>
-            <li>Coefficient estimates: values for the AR and MA terms, along with their standard errors.</li>
-            <li>Statistical significance: P or t-statistics for each coefficient, indicating their significance.</li>
-            <li>Information criteria: AIC and BIC for model comparison.</li>
-            <li>Log-likelihood: a measure of model fit.</li>
-            <li>Residual statistics: including the regression standard error.</li>
-            <li>Residual diagnostics: tests for normality and autocorrelation of the residuals.</li>
-            <li>Forecast accuracy metrics: such as Mean Absolute Error (MAE) or Root Mean Squared Error (RMSE) if a
-                forecast was made.</li>
-            <li>Model summary: overall fit statistics and explanatory power of the model.</li>
+            <li><strong>הערכות קואפיצנטים:</strong> הערכים של המונחים האוטורגרסיביים (AR) והממוצעים הנעים (MA), כולל
+                סטיות התקן שלהם.</li>
+            <li><strong>חשיבות סטטיסטית:</strong> סטטיסטיקות P או t לכל קואפיצנט, המצביעות על החשיבות הסטטיסטית שלהם
+                במודל.</li>
+            <li><strong>קריטריונים של מידע:</strong> AIC (Criteria for Akaike Information) ו-BIC (Criteria for Bayesian
+                Information) לשם השוואת המודל עם מודלים אחרים.</li>
+            <li><strong>סיכוי לוגי:</strong> מדד המצביע על התאמת המודל לנתונים שנמדדו.</li>
+            <li><strong>סטטיסטיקות שאריות:</strong> כוללות את סטיית התקן של השאריות.</li>
+            <li><strong>אבחון שאריות:</strong> בדיקות לנורמליות ולאוטוקרולציה של השאריות.</li>
+            <li><strong>מדדי דיוק תחזיות:</strong> כגון Mean Absolute Error (MAE) או Root Mean Squared Error (RMSE), אם
+                בוצעה תחזית.</li>
+            <li><strong>סיכום המודל:</strong> סטטיסטיקות כלליות על התאמת המודל ויכולת ההסבר שלו.</li>
         </ul>
     </div>
 

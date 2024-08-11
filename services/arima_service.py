@@ -211,17 +211,13 @@ class ARIMAService:
 
             # Plot statistics
             aic = train_results.aic
-            bic = train_results.bic
-            log_likelihood = train_results.llf
-            residual_std_error = np.sqrt(train_results.scale)
             # RMSE calculation
             rmse = np.sqrt(mean_absolute_error(test_data, forecast_df['mean']))
             rmse_text = f'RMSE: {rmse:.4f}'
             formula_text = (
-                f'ARIMA({model.order[0]},{model.order[1]},{model.order[2]})   '
-                f'AIC: {aic:.2f}, BIC: {bic:.2f}   '
-                f'Log-Likelihood: {log_likelihood:.2f}   '
-                f'Residual Std Error: {residual_std_error:.4f}   '
+                f'ARIMA({model.order[0]},{model.order[1]},{model.order[2]}) >>>'
+                f'P=({model.order[0]}, D={model.order[1]}, Q={model.order[2]})   '
+                f'AIC: {aic:.2f}   '
                 f'{rmse_text}'
             )
             ax.text(0.05, 0.05, formula_text, transform=ax.transAxes, fontsize=12, fontweight='bold', verticalalignment='bottom',

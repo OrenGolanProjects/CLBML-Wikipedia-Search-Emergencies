@@ -65,15 +65,15 @@ except Exception as e:
     logger.error(f"Failed to initialize the database: {e}")
     raise
 
-# ========================================================
-# ================ UPDATE CHECK ==========================
-# ========================================================
-try:
-    if not has_updated_today():
-        perform_updates(app)
-except Exception as e:
-    logger.error(f"Failed to perform updates: {e}")
-# ========================================================
+# # ========================================================
+# # ================ UPDATE CHECK ==========================
+# # ========================================================
+# try:
+#     if not has_updated_today():
+#         perform_updates(app)
+# except Exception as e:
+#     logger.error(f"Failed to perform updates: {e}")
+# # ========================================================
 
 
 app.register_error_handler(Exception, handle_exception)

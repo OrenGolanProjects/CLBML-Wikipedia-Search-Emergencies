@@ -5,6 +5,8 @@ import os
 import logging
 import colorlog
 import matplotlib.pyplot as plt
+import pandas as pd
+
 
 from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
@@ -160,8 +162,10 @@ def research():
     # ================ CROSS-CORRELATION =====================
     # ========================================================
 
+    merged_df = wiki_traffic_service.get_traffic_data_as_dataframe()
+
     # Perform cross-correlation
-    cross_corr_results = cross_corr_service.run_cross_correlation(merged_df)
+    cross_corr_results = cross_corr_service.cross_correlation_test(merged_df,10)
 
     # ========================================================
     # ================ ARIMA MODEL ===========================
@@ -188,6 +192,8 @@ def print_files():
 def wiki_traffic():
     wiki_traffic_service = WikiTrafficService()
     df = wiki_traffic_service.get_traffic_data_as_dataframe()
+    df.fillna(0, inplace=True)
+    df = df.astype(str)
     columns = df.columns.tolist()
     data = df.to_dict(orient='records')
     return render_template('wiki_traffic.html', columns=columns, data=data)

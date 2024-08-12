@@ -6,7 +6,7 @@
 <h1>Research Results</h1>
 
 <!-- Navigation Buttons -->
-<div class="navigation-buttons">
+<div class="navigation-buttons btn_margin">
     <!-- <button onclick="window.location.href='#results-carousel'">Peaks Detection</button> -->
     <button onclick="window.location.href='#auto-correlation'">Auto-Correlation</button>
     <button onclick="window.location.href='#cross-correlation-carousel'">Cross-Correlation</button>
@@ -38,11 +38,7 @@
                             <img src="{{ url_for('static', filename='peaks_figures/' ~ image.filename) }}"
                                 class="card-img-top" alt="{{ subject }}"
                                 onclick="openModal('{{ url_for('static', filename='peaks_figures/' ~ image.filename) }}')">
-                            <div class="card-body">
-                                <p class="card-text">This image represents the peaks detected in the time series data
-                                    for {{ subject }}. Peaks indicate points of maximum in the graph, which allow us to
-                                    analyze the behavior of the data.</p>
-                            </div>
+
                         </div>
                     </div>
                     {% endfor %}
@@ -61,7 +57,10 @@
         </div>
         {% endfor %}
     </div>
-    <button onclick="window.location.href='#top'">Go to Top</button>
+    <div class="btn_margin">
+        <button onclick="window.location.href='#top'">Go to Top</button>
+    </div>
+    
 </section>
 <!-- Peaks Detection Section -->
 <!-- ======================================================================================================================================= -->
@@ -110,7 +109,9 @@
         </div>
         {% endfor %}
     </div>
-    <button onclick="window.location.href='#top'">Go to Top</button>
+    <div class="btn_margin">
+        <button onclick="window.location.href='#top'">Go to Top</button>
+    </div>
 </section>
 <!-- Auto-Correlation Section -->
 <!-- ======================================================================================================================================= -->
@@ -170,8 +171,8 @@
                     <tr>
                         <td>{{ row['Page 1'] }}</td>
                         <td>{{ row['Page 2'] }}</td>
-                        <td>{{ row['lag'] }}</td>
-                        <td>{{ row['correlation'] }}</td>
+                        <td>{{ row['Best Lag'] }}</td>
+                        <td>{{ row['Max Correlation'] }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -180,7 +181,9 @@
         {% endfor %}
         {% endif %}
     </div>
-    <button onclick="window.location.href='#top'">Go to Top</button>
+    <div class="btn_margin">
+        <button onclick="window.location.href='#top'">Go to Top</button>
+    </div>
 </section>
 <!-- Cross-Correlation Section -->
 <!-- ======================================================================================================================================= -->
@@ -244,9 +247,9 @@
                             {% for forecast in arima_data['forecast'] %}
                             <tr>
                                 <td>{{ forecast['Date'] }}</td>
-                                <td>{{ forecast['Forecast'] }}</td>
-                                <td>{{ forecast['Actual'] }}</td>
-                                <td>{{ forecast['MAE'] }}</td>
+                                <td>{{ forecast['Forecast']|round(2) }}</td>
+                                <td>{{ forecast['Actual']|round(2) }}</td>
+                                <td>{{ forecast['MAE']|round(2) }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -258,7 +261,9 @@
         {% endfor %}
 
     </div>
-    <button onclick="window.location.href='#top'">Go to Top</button>
+    <div class="btn_margin">
+        <button onclick="window.location.href='#top'">Go to Top</button>
+    </div>
 </section>
 <!-- ARIMA Model Section -->
 {% endblock %}

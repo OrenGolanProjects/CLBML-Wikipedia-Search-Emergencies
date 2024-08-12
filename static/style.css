@@ -317,6 +317,7 @@ input[type="text"], input[type="datetime-local"], input[type="number"] {
 }
 
 button {
+
     background-color: #35424a;
     color: white;
     padding: 10px 15px;
@@ -536,4 +537,9 @@ button:hover {
 .navigation-buttons button {
     flex: 1;
     margin: 0 10px; /* Optional: Add some margin between buttons */
+}
+
+.btn_margin {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }

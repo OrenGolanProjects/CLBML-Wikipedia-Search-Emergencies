@@ -38,7 +38,8 @@ def load_default_wikipedia_pages():
                 page_data['page_title'],
                 page_data['language'],
                 page_data['views'],
-                page_data['event_code']
+                page_data['event_code'],
+                page_data['url']
             )
 
     logger.info("Default Wikipedia pages loaded successfully.")

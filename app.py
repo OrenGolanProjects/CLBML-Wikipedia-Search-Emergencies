@@ -5,8 +5,6 @@ import os
 import logging
 import colorlog
 import matplotlib.pyplot as plt
-import pandas as pd
-
 
 from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
@@ -116,7 +114,8 @@ def manage_wikipedia_pages():
         page_language = request.form.get('language')
         page_views = request.form.get('views')
         event_code = request.form.get('event_code')
-        WikipediaService.create_page(page_title, page_language, page_views, event_code)
+        url = request.form.get('url')
+        WikipediaService.create_page(page_title, page_language, page_views, event_code,url)
         logger.info(">> END:: /wikipedia")
         return redirect(url_for('manage_wikipedia_pages'))
     pages = WikipediaService.get_all_pages()
@@ -184,6 +183,7 @@ def research():
 @app.route('/print_files')
 def print_files():
     reset_service = ResetService()
+
     reset_service.print_files_and_directories()
     print_all_tables(app)
     return render_template('welcome.html')

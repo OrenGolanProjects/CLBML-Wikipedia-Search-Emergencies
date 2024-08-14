@@ -16,7 +16,7 @@
 <!-- ======================================================================================================================================= -->
 <!-- Peaks Detection Section -->
 <section id="results-carousel" class="btm-mrgin-section">
-    <h2>Peaks Detection Analysis Results</h2>
+    <h1>Peaks Detection Analysis Results</h1>
     <div class="right_to_left">
         <p>הניתוח של זיהוי ה-peaks מספק תובנות משמעותיות לגבי עקומות סדרות הזמן עבור כל נבדק. </p>
         <p>תהליך זיהוי ה-peaks מאפשר לנו לזהות את נקודות השיא והעמקים בנתונים, דבר שיכול לספק מידע על תהליכים ותנודות
@@ -38,8 +38,8 @@
                             <img src="{{ url_for('static', filename='peaks_figures/' ~ image.filename) }}"
                                 class="card-img-top" alt="{{ subject }}"
                                 onclick="openModal('{{ url_for('static', filename='peaks_figures/' ~ image.filename) }}')">
-
                         </div>
+                        
                     </div>
                     {% endfor %}
                 </div>
@@ -68,7 +68,7 @@
 <!-- ======================================================================================================================================= -->
 <!-- Auto-Correlation Section -->
 <section id="auto-correlation" class="section btm-mrgin-section">
-    <h2>Auto-Correlation Analysis Results</h2>
+    <h1>Auto-Correlation Analysis Results</h1>
     <div class="right_to_left">
         <p>הניתוח של AC מאפשר לנו להבין את הקשרים הפנימיים בתוך סדרות הזמן. </p>
         <p>באמצעות AC, נוכל לחקור את ההשפעה של ערכים עתידיים על ערכים נוכחיים ולהבין את הטרנדים והעונתיות בנתונים. </p>
@@ -119,7 +119,7 @@
 <!-- ======================================================================================================================================= -->
 <!-- Cross-Correlation Section -->
 <section id="cross-correlation-carousel" class="btm-mrgin-section">
-    <h2>Cross-Correlation Analysis Results</h2>
+    <h1>Cross-Correlation Analysis Results</h1>
     <div class="right_to_left">
         <p>Cross-Correlation הוא שיטה סטטיסטית המשמשת למדידת הדמיון בין שתי סדרות זמן כפונקציה של ההסטה של אחת ביחס
             לשנייה.
@@ -191,36 +191,34 @@
 <!-- ======================================================================================================================================= -->
 <!-- ARIMA Model Section -->
 <section id="arima-carousel" class="btm-mrgin-section">
-    <h2>ARIMA Model Analysis Results</h2>
+    <h1>ARIMA Model Analysis Results        </h1>
     <div class="right_to_left">
-        <h1>מודל ARIMA (Autoregressive Integrated Moving Average)</h1>
-        <p>מודל ARIMA הוא כלי לניתוח תחזיות של סדרות זמן. כל נושא מוצג בטבלה הכוללת את הערכים התחזויים ואת גבולות
-            הביטחון.</p>
+        
+        <p>מודל ARIMA הוא כלי לניתוח תחזיות של סדרות זמן. כל נושא מוצג בטבלה הכוללת את הערכים התחזויים ואת גבולות הביטחון.</p>
 
         <h2>פרטי המודל:</h2>
         <ul>
             <li><strong>סדר המודל:</strong> (p,d,q), שבו:
                 <ul>
-                    <li><strong>p:</strong> סדר האוטורגרסיה, המייצג את מספר ההתראות הקודמות שמשפיעות על הזמן הנוכחי.
+                    <li><strong>p:</strong> סדר האוטורגרסיה, המייצג את ערך העבר שמשפיעות על הזמן הנוכחי.
                     </li>
-                    <li><strong>d:</strong> דרגת ההבדלה, המייצגת את מספר הפעמים שהסדרה הוסרה כדי לחלץ את הטרנדים או
-                        השפעות לא תחזיותיות.</li>
-                    <li><strong>q:</strong> סדר הממוצע הנע, המתאר את מספר ההתראות הקודמות שמשפיעות על הזמן הנוכחי.</li>
+                    <li><strong>d:</strong> מספר הפרשים, המייצג את מספר הפעמים שנלקחו הפרשים כדי ליצור יציבות.</li>
+                    <li><strong>q:</strong> סדר הממוצע הנע, מציין את שגיאות החיזוי הקודמות שמשפיעות על הזמן הנוכחי.</li>
                 </ul>
             </li>
-            <li><strong>הערכות קואפיצנטים:</strong> הערכים של המונחים האוטורגרסיביים (AR) והממוצעים הנעים (MA), כולל
-                סטיות התקן שלהם.</li>
-            <li><strong>חשיבות סטטיסטית:</strong> סטטיסטיקות P או t לכל קואפיצנט, המצביעות על החשיבות הסטטיסטית שלהם
-                במודל.</li>
-            <li><strong>קריטריונים של מידע:</strong> AIC (Criteria for Akaike Information) ו-BIC (Criteria for Bayesian
-                Information) לשם השוואת המודל עם מודלים אחרים.</li>
-            <li><strong>סיכוי לוגי:</strong> מדד המצביע על התאמת המודל לנתונים שנמדדו.</li>
-            <li><strong>סטטיסטיקות שאריות:</strong> כוללות את סטיית התקן של השאריות.</li>
-            <li><strong>אבחון שאריות:</strong> בדיקות לנורמליות ולאוטוקרולציה של השאריות.</li>
+            <li><strong>Coefficient Estimates:</strong> הערכים של המונחים האוטורגרסיביים (AR) והממוצעים הנעים (MA), כולל סטיות התקן שלהם.</li>
+            <li><strong>חשיבות סטטיסטית:</strong> סטטיסטיקות P או t לכל קואפיצנט, המצביעות על החשיבות הסטטיסטית שלהם במודל.</li>
+            <li><strong>קריטריונים של מידע:</strong> AIC (Criteria for Akaike Information) ו-BIC (Criteria for Bayesian Information) לשם השוואת המודל עם מודלים אחרים.</li>
             <li><strong>מדדי דיוק תחזיות:</strong> כגון Mean Absolute Error (MAE) או Root Mean Squared Error (RMSE), אם
                 בוצעה תחזית.</li>
-            <li><strong>סיכום המודל:</strong> סטטיסטיקות כלליות על התאמת המודל ויכולת ההסבר שלו.</li>
         </ul>
+        <p>
+            דוגמה: ARIMA(1,1,1),
+             מציין מודל שלוקח בחשבון ערך 1 מהעבר לרכיב האוטורגרסיבי,
+             מבצע הפרש אחד להשגת יציבות,
+             ולוקח בחשבון שגיאת חיזוי אחת קודת לרכיב הממוצע הנע.
+             <strong>בסך הכל, ARIMA מנסה לחזות ערכים עתידיים בסדרה על ידי ניצול דפוסים והתנהגויות קודמות בנתונים, תוך התחשבות במגוון רכיבים ויחסים שונים.</strong>
+        </p>
     </div>
 
     <div class="hive-container">

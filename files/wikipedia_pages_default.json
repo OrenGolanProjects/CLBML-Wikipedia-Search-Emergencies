@@ -3,48 +3,56 @@
         "event_code": "1",
         "page_title": "Reactions_to_the_Manchester_Arena_bombing",
         "language": "en",
-        "views": 2495
+        "views": 2495,
+        "url": "https://en.wikipedia.org/wiki/Reactions_to_the_Manchester_Arena_bombing"
     },
     {
         "event_code": "1",
         "page_title": "هجوم_مانشستر_أرينا_2017",
         "language": "ar",
-        "views": 2635
+        "views": 2635,
+        "url": "https://ar.wikipedia.org/wiki/%D9%87%D8%AC%D9%88%D9%85_%D9%85%D8%A7%D9%86%D8%B4%D8%B3%D8%AA%D8%B1_%D8%A3%D8%B1%D9%8A%D9%86%D8%A7_2017#:~:text=5%20%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-,%D8%A7%D9%84%D9%87%D8%AC%D9%88%D9%85,%D9%85%D8%A7%20%D9%8A%D8%B5%D9%84%20%D8%A5%D9%84%D9%89%2021%2C000%20%D8%B4%D8%AE%D8%B5."
     },
     {
         "event_code": "2",
         "page_title": "Israel–Hamas_war",
         "language": "en",
-        "views": 305
+        "views": 305,
+        "url":"https://en.wikipedia.org/wiki/Israel%E2%80%93Hamas_war"
     },
     {
         "event_code": "2",
         "page_title": "الحرب_الفلسطينية_الإسرائيلية_2023",
         "language": "ar",
-        "views": 303
+        "views": 303,
+        "url": "https://ar.wikipedia.org/wiki/%D8%B6%D8%AD%D8%A7%D9%8A%D8%A7_%D8%A7%D9%84%D8%AD%D8%B1%D8%A8_%D8%A7%D9%84%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%D9%8A%D8%A9_%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9_2023#:~:text=%D8%B6%D8%AD%D8%A7%D9%8A%D8%A7%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A8%20%D8%A7%D9%84%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9%202023%20%D9%87%D9%85%20%D8%B6%D8%AD%D8%A7%D9%8A%D8%A7%20%D8%A7%D9%84%D8%AD%D8%B1%D8%A8%20%D8%A7%D9%84%D8%AA%D9%8A%20%D8%A7%D9%86%D8%AF%D9%84%D8%B9%D8%AA,7%20%D8%A3%D9%83%D8%AA%D9%88%D8%A8%D8%B1%2F%D8%AA%D8%B4%D8%B1%D9%8A%D9%86%20%D8%A7%D9%84%D8%A3%D9%88%D9%84%202023."
     },
     {
         "event_code": "2",
         "page_title": "%D7%9E%D7%9C%D7%97%D7%9E%D7%AA_%D7%97%D7%A8%D7%91%D7%95%D7%AA_%D7%91%D7%A8%D7%96%D7%9C",
         "language": "he",
-        "views": 307
+        "views": 307, 
+        "url": "https://he.wikipedia.org/wiki/%D7%9E%D7%9C%D7%97%D7%9E%D7%AA_%D7%97%D7%A8%D7%91%D7%95%D7%AA_%D7%91%D7%A8%D7%96%D7%9C"
     },
     {
         "event_code": "3",
         "page_title": "Charlie_Hebdo_shooting",
         "language": "en",
-        "views": 3328
+        "views": 3328,
+        "url": "https://en.wikipedia.org/wiki/Charlie_Hebdo_shooting"
     },
     {
         "event_code": "3",
         "page_title": "الهجوم_على_صحيفة_شارلي_إبدو",
         "language": "ar",
-        "views": 3328
+        "views": 3328,
+        "url":"https://ar.wikipedia.org/wiki/%D8%A7%D9%84%D9%87%D8%AC%D9%88%D9%85_%D8%B9%D9%84%D9%89_%D8%B5%D8%AD%D9%8A%D9%81%D8%A9_%D8%B4%D8%A7%D8%B1%D9%84%D9%8A_%D8%A5%D8%A8%D8%AF%D9%88"
     },
     {
         "event_code": "3",
         "page_title": "Attentat_contre_Charlie_Hebdo",
         "language": "fr",
-        "views": 3328
+        "views": 3328,
+        "url": "https://fr.wikipedia.org/wiki/Attentat_contre_Charlie_Hebdo"
     }
 ]

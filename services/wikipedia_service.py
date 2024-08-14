@@ -37,7 +37,7 @@ class WikipediaService:
     logging.basicConfig(level=logging.INFO)
 
     @staticmethod
-    def create_page(title, language, views, event_code):
+    def create_page(title, language, views, event_code, url):
         """
         Create a new Wikipedia page entry.
 
@@ -47,7 +47,7 @@ class WikipediaService:
         views (int): The number of views for the Wikipedia page.
         event_code (str): The event code associated with the Wikipedia page.
         """
-        page = WikipediaPage(title=title, language=language, views=views, event_code=event_code)
+        page = WikipediaPage(title=title, language=language, views=views, event_code=event_code, url=url)
         WikipediaRepository.add(page)
         WikipediaService.logger.info(f"Created page: {title} in language: {language}")
 
